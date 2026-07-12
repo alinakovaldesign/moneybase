@@ -86,8 +86,8 @@ Key references:
 The designer (a real Moneybase account holder) supplied logged-in iOS screenshots that public-surface research could not reach:
 
 1. **The feature already exists as a stub in production.** More → Wallets opens a "**Wallet Manager**" screen (per-currency wallets EUR/GBP/USD, zero balances, flag roundels, white grouped card, chevrons) with a full-width blue "**Create New Wallet**" CTA — tapping it shows a "**Coming soon**" toast. Our assessment feature is the product's next real roadmap item; the entry point ships today.
-2. **Naming**: the production screen is "Wallet Manager" (not "Wallets home") — align our screen naming.
-3. **Locale formatting**: production shows balances as `0,00 €` (comma decimal, symbol after) — European formatting, not the Anglo `€0.00` used on our canvas. Decision for the code phase: format money via locale-aware formatting matching production (flagged to WALLET-002/003).
+2. **Naming**: the production screen is "Wallet Manager" — we deliberately diverge to "Wallets" (see DDR-003: user-centric vocabulary over system-centric).
+3. **Locale formatting**: production shows `0,00 €` (continental format) — likely a locale mismatch for an English-language Maltese product (en-MT convention is `€0.00`). We diverge to locale-aware `en-MT` formatting via a single formatter in the mock service (DDR-003); production's zero-wall empty state also replaced with a designed one.
 4. **Confirmations**: light theme on wallet surfaces (validates DDR-002); flat per-currency wallet model (validates the "grouping is the new mental model" insight); native iOS nav patterns (back-chevron + centered title + HELP bubble).
 
 *Screenshot policy: the Wallet Manager screenshots contain no personal data and may be archived in `refs/`; the More-menu screenshot contains the account holder's name and account ID — per the no-real-customer-data rule it is NOT archived; findings are recorded textually here instead.*

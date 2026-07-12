@@ -92,6 +92,17 @@ The designer (a real Moneybase account holder) supplied logged-in iOS screenshot
 
 *Screenshot policy: the Wallet Manager screenshots contain no personal data and may be archived in `refs/`; the More-menu screenshot contains the account holder's name and account ID — per the no-real-customer-data rule it is NOT archived; findings are recorded textually here instead.*
 
+### Addendum 2 (2026-07-12): the logged-in WEB product (live.moneybase.com/wallets)
+
+Second human contribution — the web app's actual Wallets page behind login:
+
+1. **Master–detail layout**: left pane = "Total Cash Balances" header + wallet table (Wallet Name/IBAN | Amount, flag roundels, per-currency EUR/GBP/USD wallets); right pane = selected wallet panel (large flag, renameable name with pencil, balance with ⓘ, then **three blue circular actions: Deposit / Statement / Exchange**). This is the structural signature of web Wallets — adopted into our web shell (list + preview panel on home).
+2. **Sidebar**: every nav item has an icon; groups collapse (chevrons); Wallets active = bright blue rounded row with icon; there is a sidebar-collapse toggle top-left.
+3. **Top bar right cluster**: notification bell, settings gear (with red badge), account ID in blue. Adopted with fictional data.
+4. **Circular-actions validation**: the signature mobile pattern carries to web in the product itself — our reuse is confirmed correct.
+5. **Status honesty copy** ("Your account is being processed… maximum of 24 hours… customer care on …") — matches our error/status copy principles; noted as tone reference.
+*Screenshot not archived (contains the account holder's real account ID); findings textual.*
+
 ---
 
 *Evidence: App Store screenshots archived in `01-research/outputs/refs/`; web-app observations from live.moneybase.com pre-login session (2026-07-12); logged-in product observations contributed by the account-holding human (addendum above); Mobbin links inline.*

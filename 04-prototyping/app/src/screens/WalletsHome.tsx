@@ -1,26 +1,55 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { walletService } from '../services/walletService';
-import type { Wallet } from '../services/types';
+import type { Card, Wallet } from '../services/types';
 import { formatMoney, formatMoneyParts } from '../services/money';
-import { home } from '../content/copy';
+import { home, walletDetail } from '../content/copy';
 import { Button } from '../design-system/components/Button';
 import { Flag } from '../design-system/components/Flag';
 import { Skeleton } from '../design-system/components/Skeleton';
+import { CircleAction } from '../design-system/components/CircleAction';
+import { CardBadge } from './CreateWallet/CardBadge';
 import './screens.css';
 
-/** WALLET-003 — default state: wallets present, add-only entry point. */
+const PlusIcon = (
+  <svg width="20" height="20" viewBox="0 0 18 18" aria-hidden="true">
+    <path d="M9 2v14M2 9h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+  </svg>
+);
+const ExchangeIcon = (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+    <path d="M4 8h12M16 8l-3-3M18 14H6M6 14l3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const DetailsIcon = (
+  <svg width="22" height="6" viewBox="0 0 22 6" aria-hidden="true">
+    <circle cx="3" cy="3" r="2.4" fill="currentColor" /><circle cx="11" cy="3" r="2.4" fill="currentColor" /><circle cx="19" cy="3" r="2.4" fill="currentColor" />
+  </svg>
+);
+
+/** WALLET-003 — default state: wallets present, add-only entry point.
+ *  On web the layout is master–detail (observed on the logged-in product):
+ *  the preview pane below exists on all platforms but is CSS-hidden outside web. */
 export function WalletsHome() {
   const [wallets, setWallets] = useState<Wallet[] | null>(null);
+  const [cards, setCards] = useState<Card[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     let alive = true;
     walletService.listWallets().then((w) => alive && setWallets(w));
+    walletService.listCards().then((c) => alive && setCards(c));
     return () => {
       alive = false;
     };
   }, []);
+
+  const preview = wallets?.[0];
+  const previewParts = preview
+    ? formatMoneyParts(preview.balances.find((b) => b.currency === preview.baseCurrency)?.amountMinor ?? 0, preview.baseCurrency)
+    : null;
+  const previewFunded = preview?.balances.some((b) => b.amountMinor > 0) ?? false;
+  const previewCard = cards.find((c) => c.id === preview?.fundingCardId);
 
   return (
     <main className="mb-screen">
@@ -50,6 +79,8 @@ export function WalletsHome() {
 
       <h1 className="mb-screen__title">{home.title}</h1>
 
+      <div className="mb-home">
+        <div className="mb-home__list">
       {wallets === null ? (
         <div className="mb-card" aria-label="Loading wallets">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
@@ -119,6 +150,43 @@ export function WalletsHome() {
       <Button variant="accent" fullWidth onClick={() => navigate('/create')}>
         {home.newWalletCta}
       </Button>
+        </div>
+
+        {/* Master–detail preview pane — web only (CSS-hidden elsewhere).
+            Mirrors the right panel of the logged-in product's Wallets page. */}
+        {preview && previewParts && (
+          <aside className="mb-home__preview" aria-label={`${preview.name} preview`}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-3)', textAlign: 'center' }}>
+              <span style={{ transform: 'scale(2)', margin: 'var(--space-3)' }}>
+                <Flag code={preview.baseCurrency} />
+              </span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--type-title-md-size)', color: 'var(--text-heading)' }}>
+                {preview.name}
+              </span>
+              <div className="mb-balance" style={{ fontSize: 'var(--type-title-lg-size)' }}>
+                {previewParts.main}
+                <span className="mb-balance__decimals">{previewParts.decimals}</span>
+              </div>
+              <div style={{ display: 'flex', gap: 'var(--space-6)', marginTop: 'var(--space-2)' }}>
+                <CircleAction emphasis="primary" icon={PlusIcon} label="Add funds" />
+                <CircleAction icon={ExchangeIcon} label="Exchange" disabled={!previewFunded} />
+                <CircleAction icon={DetailsIcon} label="Details" disabled={!previewFunded} />
+              </div>
+              {previewCard && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginTop: 'var(--space-2)' }}>
+                  <CardBadge network={previewCard.network} />
+                  <span style={{ fontSize: 'var(--type-body-sm-size)', color: 'var(--text-secondary)' }}>
+                    •• {previewCard.last4} · {walletDetail.fundingCardLabel}
+                  </span>
+                </div>
+              )}
+              <Link to={`/wallet/${preview.id}`} style={{ color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)' }}>
+                Open wallet
+              </Link>
+            </div>
+          </aside>
+        )}
+      </div>
     </main>
   );
 }

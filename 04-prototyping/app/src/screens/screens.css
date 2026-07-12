@@ -101,6 +101,36 @@
   color: var(--text-link);
 }
 
+/* Home master–detail (web-only structure; single column elsewhere) */
+.mb-home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.mb-home__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.mb-home__preview {
+  display: none; /* mobile platforms: no preview pane */
+}
+[data-platform='web'] .mb-home {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  align-items: start;
+}
+[data-platform='web'] .mb-home__preview {
+  display: block;
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
+  position: sticky;
+  top: calc(var(--size-control-h) + var(--space-6));
+}
+
 /* Wizard sheet presentation */
 .mb-wizard-backdrop {
   position: fixed;

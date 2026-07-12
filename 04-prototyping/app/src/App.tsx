@@ -17,7 +17,7 @@ function App() {
         <div
           style={{
             position: 'fixed',
-            top: 'var(--space-3)',
+            bottom: 'var(--space-3)', /* bottom-right: never collides with shell top bars */
             right: 'var(--space-3)',
             zIndex: 30, /* demo control stays reachable even over modals */
           }}

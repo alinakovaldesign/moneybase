@@ -7,12 +7,23 @@ import './PlatformFrame.css';
  * Screens/flow are 100% shared; ONLY this frame differs per platform:
  *  - iOS: iPhone device frame, sheet presentations (HIG)
  *  - Android: device frame + M3 center-aligned top app bar, tonal surfaces
- *  - Web: NO phone column — the real product shell observed on
- *    live.moneybase.com (DESIGN-000): navy sidebar with Payments → Wallets,
- *    white top bar with centered search, content on light gray.
- * This is the one legitimate platform branch — the frame IS the platform
- * layer (divergence policy: structure lives at the platform level).
+ *  - Web: the real product shell observed on live.moneybase.com (DESIGN-000
+ *    + logged-in addendum 2): navy sidebar with icons and Payments → Wallets
+ *    active, top bar with centered search + bell/settings/account cluster.
+ * This is the one legitimate platform branch — the frame IS the platform layer.
  */
+
+const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
+const NavIcons = {
+  home: <svg width="16" height="16" viewBox="0 0 20 20"><path {...stroke} d="M3 9.5L10 3l7 6.5V17h-4.5v-4h-5v4H3V9.5z" /></svg>,
+  invest: <svg width="16" height="16" viewBox="0 0 20 20"><path {...stroke} d="M3 17V8M8 17V4M13 17v-6M18 17V7" /></svg>,
+  wallet: <svg width="16" height="16" viewBox="0 0 20 20"><rect {...stroke} x="2.5" y="5" width="15" height="11" rx="2.5" /><circle cx="14" cy="10.5" r="1.2" fill="currentColor" stroke="none" /></svg>,
+  transfer: <svg width="16" height="16" viewBox="0 0 20 20"><path {...stroke} d="M4 7h11M15 7l-3-3M16 13H5M5 13l3 3" /></svg>,
+  fx: <svg width="16" height="16" viewBox="0 0 20 20"><circle {...stroke} cx="10" cy="10" r="7" /><path {...stroke} d="M7.5 8h5M7.5 12h5M9 5.5v9" /></svg>,
+  bank: <svg width="16" height="16" viewBox="0 0 20 20"><path {...stroke} d="M3 8l7-4.5L17 8M4 8v7M8 8v7M12 8v7M16 8v7M3 15.5h14" /></svg>,
+  report: <svg width="16" height="16" viewBox="0 0 20 20"><path {...stroke} d="M5 3h7l3 3v11H5V3zM12 3v3h3" /></svg>,
+};
+
 export function PlatformFrame({ children }: { children: ReactNode }) {
   const { platform } = usePlatform();
 
@@ -24,20 +35,30 @@ export function PlatformFrame({ children }: { children: ReactNode }) {
             <span className="mb-webshell__logo-mark" aria-hidden="true">✳</span> moneybase
           </div>
           <nav className="mb-webshell__nav">
-            <span className="mb-webshell__nav-item">Home</span>
-            <span className="mb-webshell__nav-item">Investments</span>
+            <span className="mb-webshell__nav-item">{NavIcons.home} Home</span>
+            <span className="mb-webshell__nav-item">{NavIcons.invest} Investments</span>
             <span className="mb-webshell__nav-group">Payments</span>
             {/* Wallets slots into the EXISTING IA — observed on the live product */}
-            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub" data-active>Wallets</span>
-            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">Transfer</span>
-            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">FX Exchange</span>
-            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">Beneficiaries</span>
-            <span className="mb-webshell__nav-item">Reports</span>
+            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub" data-active>{NavIcons.wallet} Wallets</span>
+            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">{NavIcons.transfer} Transfer</span>
+            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">{NavIcons.fx} FX Exchange</span>
+            <span className="mb-webshell__nav-item mb-webshell__nav-item--sub">{NavIcons.bank} Beneficiaries</span>
+            <span className="mb-webshell__nav-item">{NavIcons.report} Reports</span>
           </nav>
         </aside>
         <div className="mb-webshell__main">
           <header className="mb-webshell__topbar">
             <input className="mb-webshell__search" placeholder="Search here..." aria-label="Search" />
+            {/* Right cluster observed on the logged-in product: bell · settings · account id */}
+            <span className="mb-webshell__topbar-cluster">
+              <button type="button" className="mb-webshell__iconbtn" aria-label="Notifications">
+                <svg width="18" height="18" viewBox="0 0 20 20"><path {...stroke} d="M10 3a4.5 4.5 0 00-4.5 4.5c0 4-1.5 5-1.5 5h12s-1.5-1-1.5-5A4.5 4.5 0 0010 3zM8.5 15.5a1.6 1.6 0 003 0" /></svg>
+              </button>
+              <button type="button" className="mb-webshell__iconbtn" aria-label="Settings">
+                <svg width="18" height="18" viewBox="0 0 20 20"><circle {...stroke} cx="10" cy="10" r="2.6" /><path {...stroke} d="M10 3v2M10 15v2M3 10h2M15 10h2M5 5l1.4 1.4M13.6 13.6L15 15M15 5l-1.4 1.4M6.4 13.6L5 15" /></svg>
+              </button>
+              <span className="mb-webshell__account">AST40012</span>
+            </span>
           </header>
           <div className="mb-webshell__content">{children}</div>
         </div>

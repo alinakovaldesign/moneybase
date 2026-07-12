@@ -32,6 +32,7 @@
   font-size: var(--type-caption-size);
   font-weight: 600;
   color: var(--text-heading);
+  white-space: nowrap;
 }
 .mb-circle-action:disabled {
   cursor: not-allowed;

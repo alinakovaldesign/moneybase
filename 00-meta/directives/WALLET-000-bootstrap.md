@@ -18,4 +18,7 @@
 - Any feature UI, any tokens (WALLET-001), any research (DESIGN-000).
 
 ## Learnings
-_(appended by the agent on completion)_
+- Hook test first, commit second: proving the commit-msg hook rejects untagged commits BEFORE the first real commit puts the enforcement evidence at the very start of the trail (see build-log WALLET-000).
+- Storybook 10 ships the a11y addon by default via `init`; the platform toolbar is declared in `preview.tsx` `globalTypes` as a placeholder — WALLET-001 must connect it to the real PlatformProvider, not duplicate it.
+- `npx storybook init` leaves demo stories in `src/stories/` — keep until WALLET-001 replaces them with token-driven components, then delete in the same commit.
+- Push worked against an existing empty GitHub repo with stored credentials; no PAT setup was needed.

@@ -14,3 +14,6 @@
 
 ## Out of scope
 - Funding/top-up transactions. Statements.
+
+## Learnings
+- Completed 2026-07-12; see build-log Phases 4–5 entry. Copy consumed exclusively from approved CONTENT decks via src/content/copy.ts.

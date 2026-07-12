@@ -14,3 +14,6 @@
 
 ## Out of scope
 - Wallet detail/management actions (WALLET-007). The creation wizard itself.
+
+## Learnings
+- Completed 2026-07-12; see build-log Phases 4–5 entry. Copy consumed exclusively from approved CONTENT decks via src/content/copy.ts.

@@ -46,6 +46,17 @@ Format per directive:
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
 - **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
 
+## WALLET-003..007 + CONTENT-001/002 — Copy decks + the full flow (Phases 4–5)
+- **Session**: 2026-07-12, Claude Code
+- **Directives given**: CONTENT-001/002 (03-content-creation), WALLET-003..007 (04-prototyping)
+- **Human decisions**: copy decks approved ("approve all recommended") including two agent-found consistency fixes in the canvas copy: F1 (consent bullet stated 'unlink anytime' without the replacement-card condition) and F2 (decline reassurance pointed to a wallet that doesn't exist yet). All strings live in src/content/copy.ts with deck line IDs — no user-facing string is hardcoded in a screen.
+- **Agent produced**: WalletsHome, 4-step wizard (name+base / currencies / card / explainer+consent), success, WalletDetail; components TextField, Chip, ConsentCheckbox, CircleAction, Flag, Skeleton, CardBadge + stories; iOS sheet / Android dialog / web modal via CSS presentation overrides only
+- **Interventions**: none this stretch; one self-caught fix (money narrowSymbol) during live verification
+- **Verified by hand before accepting**: full flow clicked through in a real browser — duplicate-name error + tappable suggestion, unsupported currencies visible with reasons (AED/TRY), consent gate (Agree disabled until ticked), card link with latency, success hold + auto-advance, funded wallet with disabled-until-funded actions; app + Storybook builds clean; hex-grep passes (one documented pictorial exemption: Flag.tsx)
+- **Accepted / rejected**: accepted; remaining for WALLET-008: card-link failure + consent-declined paths re-verified per skin via ?fail flags, a11y pass, screenshot matrix
+
+---
+
 ## WALLET-001 / WALLET-002 — Token pipeline + mock service (Phase 3)
 - **Session**: 2026-07-12, Claude Code
 - **Directives given**: 02-design-system/directives/WALLET-001, 04-prototyping/directives/WALLET-002

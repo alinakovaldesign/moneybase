@@ -14,3 +14,9 @@
 
 ## Out of scope
 - 3DS/KYC simulation. Real card validation beyond Luhn.
+
+## Learnings
+- Consent enforced at THREE layers by the end: deck (approved words) → UI (unticked box gates Agree) → service (linkCard refuses without consent). Each layer testable alone.
+- Decline returning to step 3 with a saved-draft banner needed the wizard to own all step state — screens must be dumb, the container remembers.
+- The explainer resolving copy functions with different arities was the only fragile spot — worth a typed copy API in a real codebase.
+- Agent-found copy inconsistencies (F1/F2) surfaced at deck stage, BEFORE any component existed — the content-first ordering paid for itself.

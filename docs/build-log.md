@@ -23,3 +23,13 @@ Format per directive:
 - **Accepted / rejected**: hook accepted as-is
 
 ### Machine log (PostToolUse hook — agent file-writes)
+
+---
+
+## DESIGN-000 — Research: product UI + B2B patterns
+- **Session**: 2026-07-12, Claude Code (same workspace session; export → evidence/sessions/)
+- **Directive given**: 01-research/directives/DESIGN-000-research-brand-patterns.md (committed in WALLET-000 bootstrap)
+- **Agent produced**: 01-research/outputs/research.md — brand cue sheet (color/type/shape/signature patterns with token implications), 5 stated unknowables, 5 adopt / 3 avoid patterns from Wise/Revolut Business/Airwallex, flow implications; 8 App Store product screenshots archived in outputs/refs/
+- **Interventions**: 1 (human) — agent initially scraped the marketing landing page (moneybase.com); human redirected: "analyse the product, not the landing page — web app for web, app screens for iOS/Android; use the Chrome extension." Agent switched to: iTunes lookup API for official product screenshots, live.moneybase.com (real web app, pre-login) via the user's Chrome, Mobbin for competitor product screens. **Why it mattered**: marketing surfaces routinely diverge from product UI — and did here (landing is light/illustrative; the actual app home is dark, the web CTA system uses amber, and a "EUR Wallet" screen already exists in-product).
+- **Verified by hand before accepting**: viewed all 8 App Store screenshots; navigated live.moneybase.com and confirmed the web shell (navy sidebar with Payments → Wallets nav, amber CTAs, Open Sans in page source); auth wall respected — stopped at the phone-login screen, no credentials touched; Mobbin references opened and visually checked
+- **Accepted / rejected**: accepted the cue sheet + patterns; rejected landing-page hex palette as a style source (kept only where it matched the product)

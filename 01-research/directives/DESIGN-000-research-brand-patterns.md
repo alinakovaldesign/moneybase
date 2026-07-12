@@ -23,4 +23,8 @@
 - User interviews / primary research (belongs in "validate next" in the stakeholder summary). Scraping anything non-public. Copying competitor UI verbatim.
 
 ## Learnings
-_(appended on completion)_
+- Marketing site ≠ product: the landing page is light/illustrative while the real app home is dark and the web product leans on amber CTAs. Always source from product surfaces (store screenshots via iTunes lookup API, the live web app) — this directive's one human intervention was exactly this correction.
+- `itunes.apple.com/lookup?id=<app-id>` returns official screenshot URLs as JSON — the cheapest deterministic way to see a native product's real UI without an account.
+- live.moneybase.com renders its full shell pre-login (nav IA, search, CTAs) — enough for web-surface grounding; the auth wall (phone login) is where research stops.
+- Moneybase already has per-currency wallets ("EUR Wallet", renameable) — the feature is a mental-model *extension* (grouping currencies under one wallet), which raises the stakes on the explainer copy (CONTENT-001).
+- Mobbin has no Moneybase entry; nearest useful corpora are Wise (currency mechanics), Revolut Business (B2B density + card sheets), Airwallex (multi-currency tabs, escape hatches).

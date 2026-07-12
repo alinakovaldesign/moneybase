@@ -106,12 +106,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  flex: 1; /* lets the empty state fill the screen and pin its CTA */
 }
 .mb-home__list {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   min-width: 0;
+  flex: 1;
 }
 .mb-home__preview,
 .mb-home__table {
@@ -217,6 +219,17 @@
   max-height: 90vh;
   border-radius: var(--radius-card);
 }
+/* Sticky orientation header — bar, step label, progress stay visible while
+   the step content scrolls beneath (human review: top was cut mid-scroll). */
+.mb-wizard__head {
+  position: sticky;
+  top: calc(var(--space-2) * -1);
+  z-index: 5;
+  background: var(--surface-sheet);
+  margin: 0 calc(var(--space-5) * -1);
+  padding: 0 var(--space-5) var(--space-2);
+  box-shadow: 0 1px 0 var(--border-divider);
+}
 .mb-wizard__grabber {
   width: var(--space-8);
   height: var(--space-1);
@@ -281,11 +294,19 @@
   flex: 1;
   padding-top: var(--space-5);
 }
+/* Sticky action footer — CTAs stay in the thumb zone, content scrolls under
+   (human review: buttons scrolled away / content cut at bottom). */
 .mb-wizard__footer {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding-top: var(--space-5);
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: var(--surface-sheet);
+  margin: auto calc(var(--space-5) * -1) 0;
+  padding: var(--space-3) var(--space-5) var(--space-2);
+  box-shadow: 0 -1px 0 var(--border-divider);
 }
 .mb-wizard__title {
   font-family: var(--font-display);
@@ -399,14 +420,35 @@
   outline-offset: calc(var(--space-1) * -1);
 }
 
-/* Empty state — first-run, no wallets yet (S7) */
+/* Empty state — first-run, no wallets yet (S7).
+   Mobile: explanation centered in the space, CTA full-width at the bottom
+   (thumb zone). Web: contained in its panel, CTA capped and centered. */
 .mb-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  flex: 1;
+  min-height: calc(var(--size-action-circle) * 6);
+}
+.mb-empty__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: var(--space-3);
-  padding: var(--space-8) var(--space-5);
+  margin: auto 0;
+  padding: var(--space-6) var(--space-5);
+}
+.mb-empty__cta {
+  width: 100%;
+  margin-top: auto;
+}
+[data-platform='web'] .mb-empty__cta {
+  display: flex;
+  justify-content: center;
+}
+[data-platform='web'] .mb-empty__cta .mb-button {
+  max-width: var(--layout-content-max);
 }
 .mb-empty__icon {
   width: calc(var(--size-action-circle) + var(--space-5));
@@ -448,7 +490,7 @@
 }
 [data-platform='web'] .mb-detail__grid {
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: minmax(280px, 2fr) 3fr;
   align-items: start;
 }
 [data-platform='web'] .mb-detail__main {
@@ -471,7 +513,12 @@
 }
 [data-platform='web'] .mb-detail__side .mb-card {
   box-shadow: none;
-  padding: var(--space-2) 0;
+  border: 1px solid var(--border-divider);
+  padding: var(--space-3) var(--space-4);
+}
+/* Card title never wraps mid-number; Manage keeps its own space */
+.mb-detail__side .mb-row__title {
+  white-space: nowrap;
 }
 
 /* Loading line for async moments >400ms */

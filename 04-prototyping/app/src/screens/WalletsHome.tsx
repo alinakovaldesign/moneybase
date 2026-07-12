@@ -27,21 +27,26 @@ const DetailsIcon = (
   </svg>
 );
 
-/** First-run empty state (S7): explains the object, one clear action, no dead end. */
+/** First-run empty state (S7): explanation centered, the single CTA full-width
+ *  at the bottom of the screen — in the thumb zone (human review). */
 function EmptyWallets({ onCreate }: { onCreate: () => void }) {
   return (
     <div className="mb-empty">
-      <span className="mb-empty__icon" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
-          <rect x="3" y="6" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="2" />
-          <circle cx="16.5" cy="12.5" r="1.5" fill="currentColor" />
-        </svg>
-      </span>
-      <h2 className="mb-empty__title">{emptyState.title}</h2>
-      <p className="mb-empty__body">{emptyState.body}</p>
-      <Button variant="accent" onClick={onCreate}>
-        {home.newWalletCta}
-      </Button>
+      <div className="mb-empty__content">
+        <span className="mb-empty__icon" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="2" />
+            <circle cx="16.5" cy="12.5" r="1.5" fill="currentColor" />
+          </svg>
+        </span>
+        <h2 className="mb-empty__title">{emptyState.title}</h2>
+        <p className="mb-empty__body">{emptyState.body}</p>
+      </div>
+      <div className="mb-empty__cta">
+        <Button variant="accent" fullWidth onClick={onCreate}>
+          {home.newWalletCta}
+        </Button>
+      </div>
     </div>
   );
 }

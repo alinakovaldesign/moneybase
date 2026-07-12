@@ -122,20 +122,22 @@ export function CreateWalletWizard() {
   return (
     <div className="mb-wizard-backdrop">
       <div className="mb-wizard" role="dialog" aria-modal="true" aria-label={wizard.title}>
-        <div className="mb-wizard__grabber" />
-        <div className="mb-wizard__bar">
-          <button type="button" className="mb-wizard__cancel" onClick={() => setCancelOpen(true)}>
-            {wizard.cancelCta}
-          </button>
-          <span className="mb-wizard__bar-title">New wallet</span>
-          <span className="mb-wizard__bar-spacer" />
-        </div>
-
-        <div className="mb-wizard__step-label">{wizard.stepIndicator(step, TOTAL_STEPS)}</div>
-        <div className="mb-wizard__steps" aria-hidden="true">
-          {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-            <span key={i} className="mb-wizard__step-seg" data-active={i < step || undefined} />
-          ))}
+        {/* Sticky header: content scrolls under it, orientation never leaves the screen */}
+        <div className="mb-wizard__head">
+          <div className="mb-wizard__grabber" />
+          <div className="mb-wizard__bar">
+            <button type="button" className="mb-wizard__cancel" onClick={() => setCancelOpen(true)}>
+              {wizard.cancelCta}
+            </button>
+            <span className="mb-wizard__bar-title">New wallet</span>
+            <span className="mb-wizard__bar-spacer" />
+          </div>
+          <div className="mb-wizard__step-label">{wizard.stepIndicator(step, TOTAL_STEPS)}</div>
+          <div className="mb-wizard__steps" aria-hidden="true">
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+              <span key={i} className="mb-wizard__step-seg" data-active={i < step || undefined} />
+            ))}
+          </div>
         </div>
 
         <div className="mb-wizard__body">

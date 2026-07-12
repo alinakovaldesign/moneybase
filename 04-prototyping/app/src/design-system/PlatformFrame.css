@@ -271,10 +271,11 @@
   flex: 1;
   padding: var(--space-6);
 }
-/* Web: screens are a comfortable content column, not a phone strip */
+/* Web: screens are a comfortable content column, CENTERED in the content area
+   (human review: left-hugging column read as cut/unbalanced) */
 .mb-webshell__content .mb-screen {
-  max-width: calc(var(--layout-screen-max) + var(--space-8) * 4);
-  margin: 0;
+  max-width: calc(var(--layout-screen-max) + var(--space-8) * 5);
+  margin: 0 auto;
   min-height: auto;
   padding: 0;
 }

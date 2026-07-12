@@ -1,0 +1,26 @@
+{
+  "$note": "Seed for WALLET-001. Two layers: primitive → semantic. Platform themes override the small set listed in platforms.*. Style Dictionary-compatible shape.",
+  "primitive": {
+    "color": {
+      "navy": { "900": "#0A1F3D", "700": "#16325C", "500": "#2B4C7E" },
+      "teal": { "600": "#0E7C7B", "500": "#14A09E" },
+      "neutral": { "0": "#FFFFFF", "50": "#F7F9FB", "100": "#EEF1F5", "300": "#C9D1DC", "600": "#5B6B7F", "900": "#101827" },
+      "red": { "600": "#C0392B" }, "green": { "600": "#1E8E5A" }, "amber": { "600": "#B7791F" }
+    },
+    "space": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "6": "24px", "8": "32px" },
+    "radius": { "sm": "6px", "md": "10px", "lg": "16px", "full": "999px" },
+    "duration": { "fast": "150ms", "base": "250ms", "slow": "400ms" }
+  },
+  "semantic": {
+    "surface": { "page": "{neutral.50}", "raised": "{neutral.0}", "sunken": "{neutral.100}" },
+    "text": { "primary": "{neutral.900}", "secondary": "{neutral.600}", "inverse": "{neutral.0}" },
+    "action": { "primary-bg": "{navy.700}", "primary-text": "{neutral.0}", "secondary-border": "{neutral.300}" },
+    "feedback": { "error": "{red.600}", "success": "{green.600}", "warning": "{amber.600}" },
+    "control": { "radius": "{radius.md}", "height": "44px" }
+  },
+  "platforms": {
+    "ios":     { "control.height": "44px", "control.radius": "{radius.lg}", "divider": "hairline", "motion": "spring", "$guideline": "HIG: 44pt targets, continuous corners, hairlines over shadows" },
+    "android": { "control.height": "48px", "control.radius": "{radius.full}", "divider": "elevation", "motion": "emphasized-easing", "$guideline": "M3: 48dp targets, full-radius buttons, tonal elevation" },
+    "web":     { "control.height": "40px", "control.radius": "{radius.sm}", "divider": "border", "motion": "ease-out", "$guideline": "Web: denser controls, visible focus rings, hover states" }
+  }
+}

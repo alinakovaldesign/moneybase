@@ -1,0 +1,8 @@
+#!/bin/sh
+# Enforces directive traceability: every commit must reference WALLET-, DESIGN- or CONTENT-NNN.
+# Install: scripts/install-hooks.sh
+if ! grep -qE '(WALLET|DESIGN|CONTENT)-[0-9]{3}' "$1"; then
+  echo "✗ Commit rejected: message must reference a directive ID (WALLET-, DESIGN- or CONTENT-NNN)." >&2
+  echo "  This repo's proof-of-agent-driving depends on the directive→commit trail." >&2
+  exit 1
+fi

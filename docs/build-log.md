@@ -46,6 +46,15 @@ Format per directive:
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
 - **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
 
+## WALLET-001 / WALLET-002 — Token pipeline + mock service (Phase 3)
+- **Session**: 2026-07-12, Claude Code
+- **Directives given**: 02-design-system/directives/WALLET-001, 04-prototyping/directives/WALLET-002
+- **Agent produced**: `scripts/generate-tokens.mjs` (seed → CSS vars + Tokens.swift + tokens.xml); PlatformProvider + switcher; Button (5 states) + Tokens living-doc stories; Storybook toolbar wired to [data-platform]; walletService (latency 400–1400ms, 4 failure flags → typed domain errors with recovery hints, en-MT money formatter, minor-units only); demo scaffolding removed
+- **Interventions**: none this stretch (design decisions pre-made by directives/DDRs)
+- **Verified by hand before accepting**: app build + Storybook build clean; grep proves zero hex literals outside generated tokens; dev server launched and platform switch exercised in a real browser — iOS r12 buttons → Android pill buttons screenshot-confirmed; formatter output spot-checked (€0.00 style)
+- **Accepted / rejected**: accepted with two honest notes — (1) staging mishap folded WALLET-002 files into the WALLET-001 commit (09cf4b6), documented in ee5a2cf, history left unamended; (2) known a11y debt logged: white-on-blue button contrast ~2.7:1, inherited from product palette, deferred to WALLET-008 as an explicit decision
+- **Open**: DDR-002/003 human sign-off still pending
+
 ### Human research contribution — post-DESIGN-002 (2026-07-12)
 - **Human provided**: logged-in iOS screenshots (real account) — More→Wallets→"Wallet Manager" list (EUR/GBP/USD at zero) + "Create New Wallet" CTA → **"Coming soon" toast**
 - **Why it mattered**: the agent's research explicitly stopped at the auth wall (stated unknowable); this shows the assessment feature is the product's actual next roadmap item, the entry point already ships, the production screen name is "Wallet Manager", and production money formatting is `0,00 €` (locale-aware, not Anglo)

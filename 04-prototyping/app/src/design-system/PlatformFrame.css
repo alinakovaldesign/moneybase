@@ -17,16 +17,17 @@
   flex-direction: column;
   box-shadow: var(--shadow-sheet), 0 0 0 var(--space-2) var(--text-heading);
 }
-/* HIG: continuous large corner radius, iPhone proportions */
+/* HIG: continuous large corner radius, iPhone proportions.
+   Height is capped to the viewport so the device never clips. */
 .mb-device--ios {
   width: var(--layout-screen-max);
-  height: calc(var(--layout-screen-max) * 2.05);
+  height: min(calc(var(--layout-screen-max) * 2.05), calc(100vh - var(--space-8)));
   border-radius: calc(var(--radius-sheet) * 2);
 }
 /* M3 device: slightly wider, tighter corners */
 .mb-device--android {
   width: calc(var(--layout-screen-max) + var(--space-4));
-  height: calc(var(--layout-screen-max) * 2.05);
+  height: min(calc(var(--layout-screen-max) * 2.05), calc(100vh - var(--space-8)));
   border-radius: calc(var(--radius-sheet) + var(--space-1));
 }
 
@@ -88,7 +89,8 @@
 .mb-device__screen {
   flex: 1;
   overflow-y: auto;
-  position: relative;
+  /* NOT position:relative — overlays (wizard backdrop) anchor to .mb-device,
+     so the scrim dims the full device including the status bar (HIG sheets). */
   display: flex;
   flex-direction: column;
 }
@@ -117,11 +119,23 @@
   min-height: 100%;
   max-width: none;
 }
-/* Wizard overlays stay INSIDE the device */
-.mb-device__screen ~ * .mb-wizard-backdrop,
+/* Wizard overlays stay INSIDE the device (and dim the whole device) */
 .mb-device .mb-wizard-backdrop,
 .mb-device .mb-dialog-backdrop {
   position: absolute;
+}
+/* Sheet/dialog heights are relative to the DEVICE, never the browser viewport */
+.mb-device .mb-wizard {
+  height: calc(100% - var(--space-8) * 1.8);
+}
+[data-platform='android'] .mb-device--android .mb-wizard {
+  /* M3 full-screen dialog fills the device (outranks the 100vh platform rule) */
+  height: 100%;
+}
+
+/* Web: full-width CTAs cap at a comfortable reading width inside the shell */
+.mb-webshell .mb-screen .mb-button[data-full-width] {
+  max-width: var(--layout-screen-max);
 }
 
 /* ============ Web product shell (observed on live.moneybase.com) ============ */

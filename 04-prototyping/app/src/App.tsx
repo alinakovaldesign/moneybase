@@ -19,7 +19,7 @@ function App() {
             position: 'fixed',
             top: 'var(--space-3)',
             right: 'var(--space-3)',
-            zIndex: 10,
+            zIndex: 30, /* demo control stays reachable even over modals */
           }}
         >
           <PlatformSwitcher />

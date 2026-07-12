@@ -109,6 +109,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  z-index: 20; /* above the web shell's sticky top bar */
 }
 .mb-wizard {
   width: min(100%, var(--layout-screen-max));
@@ -305,6 +306,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-5);
+  z-index: 21; /* above the wizard it confirms leaving */
 }
 .mb-dialog {
   background: var(--surface-raised);

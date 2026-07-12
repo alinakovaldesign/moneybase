@@ -1,26 +1,58 @@
 {
-  "$note": "Seed for WALLET-001. Two layers: primitive → semantic. Platform themes override the small set listed in platforms.*. Style Dictionary-compatible shape.",
+  "$note": "DESIGN-002 output: extracted from the frozen DESIGN-001 canvas (see ../extraction-DESIGN-002.md for the full canvas→token table and normalization decisions). Two layers: primitive → semantic. Platform themes override only the platforms.* set. Style Dictionary-compatible shape. WALLET-001 consumes this.",
   "primitive": {
     "color": {
-      "navy": { "900": "#0A1F3D", "700": "#16325C", "500": "#2B4C7E" },
-      "teal": { "600": "#0E7C7B", "500": "#14A09E" },
-      "neutral": { "0": "#FFFFFF", "50": "#F7F9FB", "100": "#EEF1F5", "300": "#C9D1DC", "600": "#5B6B7F", "900": "#101827" },
-      "red": { "600": "#C0392B" }, "green": { "600": "#1E8E5A" }, "amber": { "600": "#B7791F" }
+      "blue": { "500": "#16A0F6", "600": "#0F86D2", "100": "#DEEEFD", "150": "#CFE5FB", "200": "#AFD6F9", "50": "#F1F6FC", "25": "#EAF4FE" },
+      "navy": { "800": "#16325C", "900": "#023778" },
+      "amber": { "500": "#FFBD00", "600": "#F0B200" },
+      "red": { "600": "#C0392B" },
+      "green": { "600": "#1E8E5A", "100": "#E2F2EA" },
+      "slate": { "800": "#2C3E52", "700": "#42536A", "600": "#5A6B7E", "500": "#7E8CA0", "400": "#9FACBC", "350": "#A9B6C6", "scrim": "#93A6BC" },
+      "gray": { "page": "#F4F6F9", "sheet": "#F7F9FC", "disabled": "#E4EAF1", "border": "#E1E8F0", "input-border": "#D8E2EC", "divider": "#EAF0F6" },
+      "white": "#FFFFFF"
     },
-    "space": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "6": "24px", "8": "32px" },
-    "radius": { "sm": "6px", "md": "10px", "lg": "16px", "full": "999px" },
+    "space": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "5": "20px", "6": "24px", "8": "32px" },
+    "radius": { "input": "10px", "button": "12px", "card-sm": "14px", "card": "16px", "sheet": "22px", "checkbox": "7px", "pill": "999px" },
+    "size": { "control-h": "52px", "action-circle": "56px", "icon-chip": "40px", "progress-h": "4px" },
+    "font": {
+      "display": "'Nunito', sans-serif",
+      "body": "'Open Sans', 'Helvetica Neue', Arial, sans-serif"
+    },
     "duration": { "fast": "150ms", "base": "250ms", "slow": "400ms" }
   },
   "semantic": {
-    "surface": { "page": "{neutral.50}", "raised": "{neutral.0}", "sunken": "{neutral.100}" },
-    "text": { "primary": "{neutral.900}", "secondary": "{neutral.600}", "inverse": "{neutral.0}" },
-    "action": { "primary-bg": "{navy.700}", "primary-text": "{neutral.0}", "secondary-border": "{neutral.300}" },
-    "feedback": { "error": "{red.600}", "success": "{green.600}", "warning": "{amber.600}" },
-    "control": { "radius": "{radius.md}", "height": "44px" }
+    "surface": { "page": "{gray.page}", "sheet": "{gray.sheet}", "raised": "{white}", "tint": "{blue.100}", "tint-hover": "{blue.150}", "chip": "{blue.50}", "chip-hover": "{blue.25}", "disabled": "{gray.disabled}", "scrim": "{slate.scrim}", "success": "{green.100}" },
+    "text": { "heading": "{navy.800}", "primary": "{slate.800}", "label": "{slate.700}", "secondary": "{slate.600}", "muted": "{slate.500}", "disabled": "{slate.400}", "inverse": "{white}", "link": "{blue.500}" },
+    "icon": { "primary": "{blue.500}", "tertiary": "{slate.350}" },
+    "action": {
+      "primary-bg": "{blue.500}", "primary-bg-hover": "{blue.600}", "primary-text": "{white}",
+      "accent-bg": "{amber.500}", "accent-bg-hover": "{amber.600}", "accent-text": "{navy.800}",
+      "secondary-bg": "{blue.100}", "secondary-bg-hover": "{blue.150}", "secondary-text": "{navy.800}",
+      "disabled-bg": "{gray.disabled}", "disabled-text": "{slate.400}"
+    },
+    "feedback": { "error": "{red.600}", "success": "{green.600}", "success-bg": "{green.100}", "warning": "#B7791F" },
+    "border": { "default": "{gray.border}", "input": "{gray.input-border}", "divider": "{gray.divider}", "focus": "{blue.500}", "dashed-accent": "{blue.200}", "error": "{red.600}" },
+    "shadow": {
+      "card": "0 1px 3px rgba(22,50,92,0.06)",
+      "action": "0 2px 6px rgba(22,160,246,0.35)",
+      "sheet": "0 -10px 32px rgba(2,55,120,0.28)"
+    },
+    "type": {
+      "balance": { "size": "34px", "weight": 800, "family": "display", "decimals-size": "20px", "decimals-color": "{slate.500}" },
+      "title-xl": { "size": "30px", "weight": 800, "family": "display" },
+      "title-lg": { "size": "24px", "weight": 800, "family": "display" },
+      "title-md": { "size": "22px", "weight": 800, "family": "display" },
+      "body-lg": { "size": "16px", "weight": 600, "family": "body" },
+      "body": { "size": "14px", "weight": 400, "family": "body" },
+      "body-sm": { "size": "13px", "weight": 400, "family": "body" },
+      "caption": { "size": "12px", "weight": 400, "family": "body" },
+      "badge": { "size": "10px", "weight": 700, "family": "body" }
+    },
+    "control": { "radius": "{radius.button}", "height": "{size.control-h}" }
   },
   "platforms": {
-    "ios":     { "control.height": "44px", "control.radius": "{radius.lg}", "divider": "hairline", "motion": "spring", "$guideline": "HIG: 44pt targets, continuous corners, hairlines over shadows" },
-    "android": { "control.height": "48px", "control.radius": "{radius.full}", "divider": "elevation", "motion": "emphasized-easing", "$guideline": "M3: 48dp targets, full-radius buttons, tonal elevation" },
-    "web":     { "control.height": "40px", "control.radius": "{radius.sm}", "divider": "border", "motion": "ease-out", "$guideline": "Web: denser controls, visible focus rings, hover states" }
+    "ios":     { "control.radius": "{radius.button}", "target-min": "44px", "divider": "hairline", "motion": "spring", "presentation": "sheet", "$guideline": "HIG: 44pt targets, sheet presentation, hairlines over shadows — matches canvas (iOS-first)" },
+    "android": { "control.radius": "{radius.pill}", "target-min": "48px", "divider": "elevation", "motion": "emphasized-easing", "presentation": "fullscreen-dialog", "$guideline": "M3: 48dp targets, full-radius buttons, tonal elevation, full-screen dialogs" },
+    "web":     { "control.radius": "{radius.input}", "control.height": "44px", "divider": "border", "motion": "ease-out", "presentation": "centered-modal", "focus": "visible-ring", "$guideline": "Web: denser controls, visible focus rings, hover states (canvas hover values already extracted)" }
   }
 }

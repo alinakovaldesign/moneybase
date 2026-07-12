@@ -16,4 +16,8 @@
 - Component code. Platform themes (WALLET-001 owns those).
 
 ## Learnings
-_(appended on completion)_
+- The canvas being HTML made extraction deterministic: every token traces to a grep-able canvas value, not an eyeballed screenshot. DesignSync (read) + the official handoff bundle (render) together give both fidelity and provenance.
+- Real canvases contain near-duplicates (two secondary grays, three control heights, two disabled fills). Extraction is where normalization judgment happens — document each merge; don't silently "fix" the design.
+- The canvas resolved a DESIGN-000 unknowable: the display face approximation is Nunito (declared in the canvas font import).
+- Canvas is static → motion and platform-override tokens stay [system default] and must be flagged, not invented; WALLET-001/008 own them.
+- DDR drafted by agent from the human's canvas decisions still needs explicit human sign-off — the direction choice is the human's, the paperwork is the agent's.

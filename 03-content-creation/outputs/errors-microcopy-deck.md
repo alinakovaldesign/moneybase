@@ -1,5 +1,7 @@
 # CONTENT-002 — Errors + microcopy deck
 
+> ✅ **APPROVED 2026-07-12** — human: "approve all recommended". Every ★ line approved; rejected variants remain as evidence. Implemented in `app/src/content/copy.ts` (IDs match).
+
 Single copy source for WALLET-003..007. Every error answers three questions: **what happened · is my money/draft safe · what do I do now.** No blame, no dead ends, no untranslated codes. Variant A = canvas/service where one existed; ★ = recommended.
 
 ## The four required errors

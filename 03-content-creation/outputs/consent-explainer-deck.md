@@ -1,5 +1,7 @@
 # CONTENT-001 — Consent + card-link explainer deck
 
+> ✅ **APPROVED 2026-07-12** — human: "approve all recommended". Every ★ line is approved for components; non-★ variants are rejected and remain below as evidence. Findings F1/F2 resolved via C3-B and D1-B. Implemented in `app/src/content/copy.ts` (IDs match).
+
 Single copy source for WALLET-006. **No line enters a component until its ✅ is set by the human.**
 Variant A = your canvas copy (already designed). Agent adds variants + rationale; recommendation marked ★.
 Names are dynamic: `{card}` = "Visa •• 4242", `{wallet}` = wallet name, `{base}` = base currency.

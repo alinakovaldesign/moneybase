@@ -205,10 +205,13 @@ export function WalletsHome() {
         })
       )}
 
-      {/* Add only — no remove/delete affordance anywhere (brief guardrail). */}
-      <Button variant="accent" fullWidth onClick={() => navigate('/create')}>
-        {home.newWalletCta}
-      </Button>
+      {/* Add only — no remove/delete affordance anywhere (brief guardrail).
+          Hidden when the empty state is showing — it carries its own CTA. */}
+      {wallets && wallets.length > 0 && (
+        <Button variant="accent" fullWidth onClick={() => navigate('/create')}>
+          {home.newWalletCta}
+        </Button>
+      )}
         </div>
 
         {/* Master–detail preview pane — web only (CSS-hidden elsewhere).

@@ -55,6 +55,13 @@ Format per directive:
 - **Verified by hand before accepting**: full flow clicked through in a real browser — duplicate-name error + tappable suggestion, unsupported currencies visible with reasons (AED/TRY), consent gate (Agree disabled until ticked), card link with latency, success hold + auto-advance, funded wallet with disabled-until-funded actions; app + Storybook builds clean; hex-grep passes (one documented pictorial exemption: Flag.tsx)
 - **Accepted / rejected**: accepted; remaining for WALLET-008: card-link failure + consent-declined paths re-verified per skin via ?fail flags, a11y pass, screenshot matrix
 
+### Intervention — 2026-07-12 (human design review of the live prototype)
+- **Directive**: WALLET-001/003..007 output, reviewed live
+- **Agent did**: shipped the platform switcher as a token-level re-theme — same mobile column re-skinned for all three platforms
+- **Human redirect**: "Android and web work very bad through the switcher — are we following guidelines? Have you checked the existing web product to understand how it should be shown? Can iOS/Android/web be shown with mockups?"
+- **Why it mattered**: token resolution ≠ platform presentation. The DESIGN-000 research had captured the REAL web shell (navy sidebar, Payments → Wallets IA) and it was never applied — the web skin rendered a phone column instead of the product's actual layout. Android lacked M3 structure (top app bar, tonal surfaces). This is exactly the divergence policy's "structure lives at the platform level" clause, honored in tokens but not in structure.
+- **Resolution**: new directive WALLET-011 (platform presentation fidelity): device mockup frames for iOS/Android, the real product shell for web, M3 structural treatment — before the WALLET-008 QA pass.
+
 ---
 
 ## WALLET-001 / WALLET-002 — Token pipeline + mock service (Phase 3)

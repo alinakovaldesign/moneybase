@@ -11,7 +11,7 @@ const formatters = new Map<string, Intl.NumberFormat>();
 function formatterFor(currency: string): Intl.NumberFormat {
   let f = formatters.get(currency);
   if (!f) {
-    f = new Intl.NumberFormat(LOCALE, { style: 'currency', currency });
+    f = new Intl.NumberFormat(LOCALE, { style: 'currency', currency, currencyDisplay: 'narrowSymbol' });
     formatters.set(currency, f);
   }
   return f;

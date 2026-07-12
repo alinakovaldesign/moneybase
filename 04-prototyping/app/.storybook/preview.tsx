@@ -1,9 +1,21 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview, Decorator } from '@storybook/react-vite'
+import { useEffect } from 'react'
+import '../src/design-system/generated/tokens.css'
+import '../src/index.css'
+
+// Platform-theme toolbar (WALLET-001): wired to the same [data-platform]
+// mechanism the app's PlatformProvider uses — stories render through the
+// identical token override blocks generated from tokens.seed.json.
+const withPlatform: Decorator = (Story, context) => {
+  const platform = (context.globals.platform as string) ?? 'ios'
+  useEffect(() => {
+    document.documentElement.setAttribute('data-platform', platform)
+  }, [platform])
+  return <Story />
+}
 
 const preview: Preview = {
-  // Platform-theme toolbar: placeholder until WALLET-001 lands the token layer
-  // and PlatformProvider. Every design-system component must render clean in
-  // all three platform themes (iOS/HIG, Android/M3, web).
+  decorators: [withPlatform],
   globalTypes: {
     platform: {
       description: 'Platform theme (iOS / Android / web)',

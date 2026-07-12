@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { walletService } from '../../services/walletService';
 import type { Currency } from '../../services/types';
 import { errors, loading, wizard } from '../../content/copy';
@@ -18,6 +18,7 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
   const [pickerOpen, setPickerOpen] = useState(false);
   const [checking, setChecking] = useState(false);
   const [dupError, setDupError] = useState<{ name: string; suggestion: string } | null>(null);
+  const pickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let alive = true;
@@ -26,6 +27,16 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
       alive = false;
     };
   }, []);
+
+  // Dropdown closes on outside click — behaves like a real select.
+  useEffect(() => {
+    if (!pickerOpen) return;
+    const close = (e: MouseEvent) => {
+      if (!pickerRef.current?.contains(e.target as Node)) setPickerOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [pickerOpen]);
 
   async function validateName(name: string) {
     if (!name.trim()) {
@@ -79,11 +90,17 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
       />
       {checking && <div className="mb-loading-line">{loading.nameCheck}</div>}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+      <div className="mb-select" ref={pickerRef}>
         <span style={{ fontSize: 'var(--type-body-sm-size)', fontWeight: 600, color: 'var(--text-label)' }}>
           {wizard.baseCurrencyLabel}
         </span>
-        <button type="button" className="mb-pick" aria-expanded={pickerOpen} onClick={() => setPickerOpen((o) => !o)}>
+        <button
+          type="button"
+          className="mb-pick"
+          aria-haspopup="listbox"
+          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen((o) => !o)}
+        >
           {selected ? (
             <>
               <Flag code={selected.code} />
@@ -93,22 +110,23 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
           ) : (
             <span className="mb-pick__name">Select base currency</span>
           )}
-          <svg className="mb-pick__check" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true">
-            <path d="M1 1l6 6-6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          {/* chevron points DOWN and rotates open — a select, not a navigation row */}
+          <svg className="mb-select__chevron" data-open={pickerOpen || undefined} width="14" height="8" viewBox="0 0 14 8" aria-hidden="true">
+            <path d="M1 1l6 6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         {pickerOpen &&
           (currencies === null ? (
             <Skeleton height="var(--size-control-h)" />
           ) : (
-            <div role="listbox" aria-label={wizard.baseCurrencyLabel} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            <div role="listbox" aria-label={wizard.baseCurrencyLabel} className="mb-select__panel">
               {[...selectable].sort((a, b) => Number(b.common) - Number(a.common)).map((c) => (
                 <button
                   key={c.code}
                   type="button"
                   role="option"
                   aria-selected={c.code === value.baseCurrency}
-                  className="mb-pick"
+                  className="mb-select__option"
                   data-selected={c.code === value.baseCurrency || undefined}
                   onClick={() => {
                     onChange({ ...value, baseCurrency: c.code });
@@ -118,6 +136,11 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
                   <Flag code={c.code} />
                   <span className="mb-pick__code">{c.code}</span>
                   <span className="mb-pick__name">{c.name}</span>
+                  {c.code === value.baseCurrency && (
+                    <svg className="mb-pick__check" width="14" height="11" viewBox="0 0 13 11" fill="none" aria-hidden="true">
+                      <path d="M1.5 5.5l3.5 3.5L11.5 1.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
                 </button>
               ))}
             </div>

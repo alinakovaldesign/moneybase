@@ -44,5 +44,13 @@ Single copy source for WALLET-003..007. Every error answers three questions: **w
 | S5 | unlink guard (tooltip on disabled Unlink in card manage) | "An active wallet needs a funding card — link a replacement first." (mirrors E3/C3-B condition) | ☐ |
 | S6 | zero-balance empty state | design-led (de-emphasized decimals + alive "Add funds"); no extra copy — avoiding production's zero-wall (DDR-003) | ☐ |
 
+## Addendum (2026-07-12) — lines added at human request during live review
+
+| # | Where | Line | Approve |
+|---|---|---|---|
+| S7 | Empty state (no wallets — screen requested by human) | title: **No wallets yet** · body: "Create your first multi-currency wallet to hold, exchange and manage funds across currencies — funded by your company card." | ✅ screen requested; wording agent-proposed — edit freely |
+| M6 | Rename wallet (pencil on detail) | label "Wallet name" · **Save** / **Cancel**; duplicate error reuses X1 semantics | ✅ same basis |
+| M7 | Add currency dialog (dashed chip now functional) | title **Add a currency** · close **Done** · exhausted: "All supported currencies are already in this wallet." | ✅ same basis |
+
 ---
 **Approval protocol**: tick ✅ per line or reply "approve all recommended". Rejected variants remain as evidence.

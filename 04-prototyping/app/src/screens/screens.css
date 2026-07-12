@@ -347,6 +347,133 @@
   flex-shrink: 0;
 }
 
+/* Select-style dropdown (base currency, add-currency): overlay panel, not inline push */
+.mb-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: relative;
+}
+.mb-select__chevron {
+  margin-left: auto;
+  color: var(--icon-tertiary);
+  transition: transform var(--duration-fast) var(--motion-ease, ease-out);
+  flex-shrink: 0;
+}
+.mb-select__chevron[data-open] {
+  transform: rotate(180deg);
+}
+.mb-select__panel {
+  position: absolute;
+  top: calc(100% - var(--space-4));
+  left: 0;
+  right: 0;
+  z-index: 6;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card-sm);
+  box-shadow: var(--shadow-sheet);
+  max-height: calc(var(--size-control-h) * 5);
+  overflow-y: auto;
+  padding: var(--space-1);
+}
+.mb-select__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: var(--radius-input);
+  padding: var(--space-3);
+  font-family: var(--font-body);
+  cursor: pointer;
+  text-align: left;
+}
+.mb-select__option:hover,
+.mb-select__option[data-selected] {
+  background: var(--surface-chip);
+}
+.mb-select__option:focus-visible {
+  outline: var(--focus-ring, 2px solid var(--border-focus));
+  outline-offset: calc(var(--space-1) * -1);
+}
+
+/* Empty state — first-run, no wallets yet (S7) */
+.mb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-5);
+}
+.mb-empty__icon {
+  width: calc(var(--size-action-circle) + var(--space-5));
+  height: calc(var(--size-action-circle) + var(--space-5));
+  border-radius: var(--radius-pill);
+  background: var(--surface-tint);
+  color: var(--icon-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mb-empty__title {
+  font-family: var(--font-display);
+  font-size: var(--type-title-md-size);
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+}
+.mb-empty__body {
+  font-size: var(--type-body-size);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  max-width: var(--layout-content-max);
+  margin: 0;
+}
+
+/* Wallet detail: two product-style panels on web, single column on mobile */
+.mb-detail__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.mb-detail__main,
+.mb-detail__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+[data-platform='web'] .mb-detail__grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  align-items: start;
+}
+[data-platform='web'] .mb-detail__main {
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-8) var(--space-6);
+  align-items: center;
+  text-align: center;
+}
+[data-platform='web'] .mb-detail__side {
+  grid-column: 1;
+  grid-row: 1;
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5);
+}
+[data-platform='web'] .mb-detail__side .mb-card {
+  box-shadow: none;
+  padding: var(--space-2) 0;
+}
+
 /* Loading line for async moments >400ms */
 .mb-loading-line {
   display: flex;

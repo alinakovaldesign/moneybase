@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { walletService } from '../services/walletService';
 import type { Card, Wallet } from '../services/types';
 import { formatMoney, formatMoneyParts } from '../services/money';
-import { home, walletDetail } from '../content/copy';
+import { emptyState, home, walletDetail } from '../content/copy';
 import { Button } from '../design-system/components/Button';
 import { Flag } from '../design-system/components/Flag';
 import { Skeleton } from '../design-system/components/Skeleton';
@@ -26,6 +26,25 @@ const DetailsIcon = (
     <circle cx="3" cy="3" r="2.4" fill="currentColor" /><circle cx="11" cy="3" r="2.4" fill="currentColor" /><circle cx="19" cy="3" r="2.4" fill="currentColor" />
   </svg>
 );
+
+/** First-run empty state (S7): explains the object, one clear action, no dead end. */
+function EmptyWallets({ onCreate }: { onCreate: () => void }) {
+  return (
+    <div className="mb-empty">
+      <span className="mb-empty__icon" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="6" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="2" />
+          <circle cx="16.5" cy="12.5" r="1.5" fill="currentColor" />
+        </svg>
+      </span>
+      <h2 className="mb-empty__title">{emptyState.title}</h2>
+      <p className="mb-empty__body">{emptyState.body}</p>
+      <Button variant="accent" onClick={onCreate}>
+        {home.newWalletCta}
+      </Button>
+    </div>
+  );
+}
 
 /** WALLET-003 — default state: wallets present, add-only entry point.
  *  On web the layout is master–detail (observed on the logged-in product):
@@ -92,24 +111,30 @@ export function WalletsHome() {
             <span>Wallet</span>
             <span>Amount</span>
           </div>
-          {wallets?.map((w) => {
-            const base = w.balances.find((b) => b.currency === w.baseCurrency);
-            return (
-              <button key={w.id} type="button" className="mb-home__trow" onClick={() => navigate(`/wallet/${w.id}`)}>
-                <Flag code={w.baseCurrency} />
-                <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span className="mb-row__title">{w.name}</span>
-                  <span className="mb-row__sub">{home.baseCurrencyOf(w.baseCurrency)}</span>
-                </span>
-                <span className="mb-row__value">{formatMoney(base?.amountMinor ?? 0, w.baseCurrency)}</span>
-              </button>
-            );
-          })}
-          <div style={{ paddingTop: 'var(--space-4)' }}>
-            <Button variant="accent" onClick={() => navigate('/create')}>
-              {home.newWalletCta}
-            </Button>
-          </div>
+          {wallets?.length === 0 ? (
+            <EmptyWallets onCreate={() => navigate('/create')} />
+          ) : (
+            <>
+              {wallets?.map((w) => {
+                const base = w.balances.find((b) => b.currency === w.baseCurrency);
+                return (
+                  <button key={w.id} type="button" className="mb-home__trow" onClick={() => navigate(`/wallet/${w.id}`)}>
+                    <Flag code={w.baseCurrency} />
+                    <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                      <span className="mb-row__title">{w.name}</span>
+                      <span className="mb-row__sub">{home.baseCurrencyOf(w.baseCurrency)}</span>
+                    </span>
+                    <span className="mb-row__value">{formatMoney(base?.amountMinor ?? 0, w.baseCurrency)}</span>
+                  </button>
+                );
+              })}
+              <div style={{ paddingTop: 'var(--space-4)' }}>
+                <Button variant="accent" onClick={() => navigate('/create')}>
+                  {home.newWalletCta}
+                </Button>
+              </div>
+            </>
+          )}
         </section>
 
         <div className="mb-home__list">
@@ -122,6 +147,8 @@ export function WalletsHome() {
             <Skeleton />
           </div>
         </div>
+      ) : wallets.length === 0 ? (
+        <EmptyWallets onCreate={() => navigate('/create')} />
       ) : (
         wallets.map((w) => {
           const base = w.balances.find((b) => b.currency === w.baseCurrency);
@@ -131,6 +158,7 @@ export function WalletsHome() {
             <Link key={w.id} to={`/wallet/${w.id}`} style={{ textDecoration: 'none' }}>
               <article className="mb-card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                 <div className="mb-row" style={{ padding: 0 }}>
+                  {/* Base-currency flag identifies the wallet at a glance (human review nit #2) */}
                   <span
                     aria-hidden="true"
                     style={{
@@ -141,13 +169,9 @@ export function WalletsHome() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: 'var(--icon-primary)',
                     }}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <rect x="3" y="6" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="2" />
-                      <circle cx="16.5" cy="12.5" r="1.5" fill="currentColor" />
-                    </svg>
+                    <Flag code={w.baseCurrency} />
                   </span>
                   <span>
                     <span className="mb-row__title" style={{ display: 'block' }}>{w.name}</span>
@@ -167,7 +191,10 @@ export function WalletsHome() {
                       <div className="mb-row" key={b.currency}>
                         <Flag code={b.currency} />
                         <span className="mb-row__title">{b.currency}</span>
-                        <span className="mb-row__value">{formatMoney(b.amountMinor, b.currency)}</span>
+                        {/* zeros de-emphasized (DDR-003 zero-state, human review nit #1) */}
+                        <span className={`mb-row__value${b.amountMinor === 0 ? ' mb-row__value--muted' : ''}`}>
+                          {formatMoney(b.amountMinor, b.currency)}
+                        </span>
                       </div>
                     ))}
                   </div>

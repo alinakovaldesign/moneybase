@@ -38,7 +38,15 @@ export function PlatformFrame({ children }: { children: ReactNode }) {
       <div className="mb-webshell">
         <aside className="mb-webshell__sidebar" aria-label="Main navigation">
           <div className="mb-webshell__logo">
-            <span className="mb-webshell__logo-mark" aria-hidden="true">✳</span> moneybase
+            {/* Moneybase asterisk mark — six rounded arms, as on the product */}
+            <svg className="mb-webshell__logo-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <g fill="currentColor">
+                {[0, 60, 120].map((deg) => (
+                  <rect key={deg} x="10.1" y="1.5" width="3.8" height="21" rx="1.9" transform={`rotate(${deg} 12 12)`} />
+                ))}
+              </g>
+            </svg>
+            moneybase
           </div>
           <nav className="mb-webshell__nav">
             <span className="mb-webshell__nav-item">{NavIcons.home} Home</span>

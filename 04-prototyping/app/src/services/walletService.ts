@@ -63,7 +63,41 @@ let nextWalletId = 2;
 export const walletService = {
   async listWallets(): Promise<Wallet[]> {
     await delay();
+    // ?empty=1 demos the zero-wallet first-run state.
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('empty')) return [];
     return structuredClone(wallets);
+  },
+
+  /** Rename an existing wallet — same duplicate rules as creation. */
+  async renameWallet(id: string, name: string): Promise<Wallet> {
+    await delay();
+    const normalized = name.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!normalized) throw new WalletError('DUPLICATE_NAME', 'A wallet needs a name.', 'Enter a name.');
+    const clash = wallets.some((w) => w.id !== id && w.name.trim().toLowerCase().replace(/\s+/g, ' ') === normalized);
+    if (clash || failFlag() === 'duplicate') {
+      throw new WalletError('DUPLICATE_NAME', `You already have a wallet called ‘${name.trim()}’.`, 'Pick a different name.');
+    }
+    const wallet = wallets.find((w) => w.id === id);
+    if (!wallet) throw new WalletError('CARD_LINK_FAILED', 'Wallet not found.');
+    wallet.name = name.trim();
+    return structuredClone(wallet);
+  },
+
+  /** Add currencies to an existing wallet (add-only, mirrors the brief's guardrail). */
+  async addCurrencies(id: string, codes: string[]): Promise<Wallet> {
+    await delay();
+    const wallet = wallets.find((w) => w.id === id);
+    if (!wallet) throw new WalletError('CARD_LINK_FAILED', 'Wallet not found.');
+    for (const code of codes) {
+      const c = currencies.find((x) => x.code === code);
+      if (!c || c.unsupportedReason) {
+        throw new WalletError('UNSUPPORTED_CURRENCY', `${code} is not available for business wallets.`, c?.unsupportedReason ?? 'Choose a supported currency.');
+      }
+      if (!wallet.balances.some((b) => b.currency === code)) {
+        wallet.balances.push({ currency: code, amountMinor: 0 });
+      }
+    }
+    return structuredClone(wallet);
   },
 
   async getWallet(id: string): Promise<Wallet | undefined> {

@@ -92,6 +92,17 @@ export const walletDetail = {
   manageCta: 'Manage',
   addCurrency: '+ Add currency',
   baseBadge: 'BASE',
+  renameLabel: 'Wallet name', // M6 (deck addendum)
+  renameSave: 'Save',
+  renameCancel: 'Cancel',
+  addCurrencyTitle: 'Add a currency', // M7 (deck addendum)
+  addCurrencyDone: 'Done',
+} as const;
+
+export const emptyState = {
+  // S7 (deck addendum — screen requested by human 2026-07-12)
+  title: 'No wallets yet',
+  body: 'Create your first multi-currency wallet to hold, exchange and manage funds across currencies — funded by your company card.',
 } as const;
 
 export const home = {

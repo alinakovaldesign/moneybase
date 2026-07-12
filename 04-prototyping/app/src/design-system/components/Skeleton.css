@@ -1,0 +1,16 @@
+.mb-skeleton {
+  display: block;
+  background: linear-gradient(90deg, var(--surface-disabled) 25%, var(--surface-sheet) 50%, var(--surface-disabled) 75%);
+  background-size: 200% 100%;
+  animation: mb-skeleton-shimmer calc(var(--duration-slow) * 3) ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mb-skeleton {
+    animation: none;
+    background: var(--surface-disabled);
+  }
+}
+@keyframes mb-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

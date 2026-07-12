@@ -1,4 +1,11 @@
 /* App-level reset. All design values come from design-system/generated/tokens.css. */
+:root {
+  /* Layout constants (prototype scaffolding — viewport frame widths, not design tokens) */
+  --layout-screen-max: 430px;
+  --layout-content-max: 360px;
+  /* Success state holds before auto-advancing (WALLET-007 realistic timing) */
+  --duration-success-hold: 1200ms;
+}
 * {
   box-sizing: border-box;
 }

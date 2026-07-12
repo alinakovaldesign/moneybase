@@ -45,3 +45,8 @@ Format per directive:
 - **Verified by hand before accepting**: dc.html byte-identity (diff) between DesignSync fetch and human download; render check in browser; extraction values spot-checked against canvas source
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
 - **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
+
+### Human research contribution — post-DESIGN-002 (2026-07-12)
+- **Human provided**: logged-in iOS screenshots (real account) — More→Wallets→"Wallet Manager" list (EUR/GBP/USD at zero) + "Create New Wallet" CTA → **"Coming soon" toast**
+- **Why it mattered**: the agent's research explicitly stopped at the auth wall (stated unknowable); this shows the assessment feature is the product's actual next roadmap item, the entry point already ships, the production screen name is "Wallet Manager", and production money formatting is `0,00 €` (locale-aware, not Anglo)
+- **Resolution**: research.md addendum; naming + locale-formatting flagged into the code phase (WALLET-002/003); stakeholder-summary hook noted. Personal-data screenshot not archived (no-real-customer-data rule); findings recorded textually.

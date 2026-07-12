@@ -113,22 +113,68 @@
   gap: var(--space-4);
   min-width: 0;
 }
-.mb-home__preview {
-  display: none; /* mobile platforms: no preview pane */
+.mb-home__preview,
+.mb-home__table {
+  display: none; /* mobile platforms: cards only */
 }
 [data-platform='web'] .mb-home {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  align-items: start;
+  align-items: stretch;
+}
+[data-platform='web'] .mb-home__list {
+  display: none; /* web: table replaces mobile cards */
+}
+[data-platform='web'] .mb-home__table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 [data-platform='web'] .mb-home__preview {
   display: block;
   background: var(--surface-raised);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: var(--space-6);
-  position: sticky;
-  top: calc(var(--size-control-h) + var(--space-6));
+  padding: var(--space-8) var(--space-6);
+}
+
+/* Product-style white panel (observed: logged-in web Wallets page) */
+.mb-panel {
+  background: var(--surface-raised);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5);
+}
+.mb-home__thead {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-divider);
+  font-size: var(--type-body-sm-size);
+  color: var(--text-secondary);
+}
+.mb-home__trow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-divider);
+  padding: var(--space-3) 0;
+  font-family: var(--font-body);
+  cursor: pointer;
+  text-align: left;
+}
+.mb-home__trow:hover {
+  background: var(--surface-sheet);
+}
+.mb-home__trow:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(var(--space-1) * -1);
+}
+.mb-home__trow .mb-row__value {
+  margin-left: auto;
 }
 
 /* Wizard sheet presentation */

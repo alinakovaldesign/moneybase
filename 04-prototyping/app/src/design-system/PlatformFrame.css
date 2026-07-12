@@ -17,18 +17,13 @@
   flex-direction: column;
   box-shadow: var(--shadow-sheet), 0 0 0 var(--space-2) var(--text-heading);
 }
-/* HIG: continuous large corner radius, iPhone proportions.
-   Height is capped to the viewport so the device never clips. */
+/* Sizes come inline from DEVICE constants (390x844 / 412x892) and the frame
+   is scaled to fit by DeviceScaler — proportions are never distorted. */
 .mb-device--ios {
-  width: var(--layout-screen-max);
-  height: min(calc(var(--layout-screen-max) * 2.05), calc(100vh - var(--space-8)));
-  border-radius: calc(var(--radius-sheet) * 2);
+  border-radius: calc(var(--radius-sheet) * 2.5);
 }
-/* M3 device: slightly wider, tighter corners */
 .mb-device--android {
-  width: calc(var(--layout-screen-max) + var(--space-4));
-  height: min(calc(var(--layout-screen-max) * 2.05), calc(100vh - var(--space-8)));
-  border-radius: calc(var(--radius-sheet) + var(--space-1));
+  border-radius: calc(var(--radius-sheet) + var(--space-2));
 }
 
 .mb-device__statusbar {

@@ -80,6 +80,38 @@ export function WalletsHome() {
       <h1 className="mb-screen__title">{home.title}</h1>
 
       <div className="mb-home">
+        {/* WEB structure: product-style panel with total + table (CSS-shown on web only) */}
+        <section className="mb-home__table mb-panel" aria-label="Wallets table">
+          <div style={{ paddingBottom: 'var(--space-3)', borderBottom: '1px solid var(--border-divider)' }}>
+            <div style={{ fontSize: 'var(--type-body-sm-size)', color: 'var(--text-secondary)' }}>Total cash balances</div>
+            <div className="mb-balance" style={{ fontSize: 'var(--type-title-lg-size)' }}>
+              {wallets ? formatMoney(wallets.reduce((sum, w) => sum + (w.baseCurrency === 'EUR' ? (w.balances.find((b) => b.currency === 'EUR')?.amountMinor ?? 0) : 0), 0), 'EUR') : '—'}
+            </div>
+          </div>
+          <div className="mb-home__thead" aria-hidden="true">
+            <span>Wallet</span>
+            <span>Amount</span>
+          </div>
+          {wallets?.map((w) => {
+            const base = w.balances.find((b) => b.currency === w.baseCurrency);
+            return (
+              <button key={w.id} type="button" className="mb-home__trow" onClick={() => navigate(`/wallet/${w.id}`)}>
+                <Flag code={w.baseCurrency} />
+                <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span className="mb-row__title">{w.name}</span>
+                  <span className="mb-row__sub">{home.baseCurrencyOf(w.baseCurrency)}</span>
+                </span>
+                <span className="mb-row__value">{formatMoney(base?.amountMinor ?? 0, w.baseCurrency)}</span>
+              </button>
+            );
+          })}
+          <div style={{ paddingTop: 'var(--space-4)' }}>
+            <Button variant="accent" onClick={() => navigate('/create')}>
+              {home.newWalletCta}
+            </Button>
+          </div>
+        </section>
+
         <div className="mb-home__list">
       {wallets === null ? (
         <div className="mb-card" aria-label="Loading wallets">
@@ -160,12 +192,21 @@ export function WalletsHome() {
               <span style={{ transform: 'scale(2)', margin: 'var(--space-3)' }}>
                 <Flag code={preview.baseCurrency} />
               </span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--type-title-md-size)', color: 'var(--text-heading)' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--type-title-md-size)', color: 'var(--text-heading)', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                 {preview.name}
+                <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true" style={{ color: 'var(--icon-primary)' }}>
+                  <path d="M13.5 3.5l3 3L7 16H4v-3l9.5-9.5z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                </svg>
               </span>
-              <div className="mb-balance" style={{ fontSize: 'var(--type-title-lg-size)' }}>
-                {previewParts.main}
-                <span className="mb-balance__decimals">{previewParts.decimals}</span>
+              <div className="mb-balance" style={{ fontSize: 'var(--type-title-lg-size)', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                <span>
+                  {previewParts.main}
+                  <span className="mb-balance__decimals">{previewParts.decimals}</span>
+                </span>
+                <svg width="15" height="15" viewBox="0 0 20 20" aria-hidden="true" style={{ color: 'var(--icon-tertiary)' }}>
+                  <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  <path d="M10 9v5M10 6.2v.2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
               </div>
               <div style={{ display: 'flex', gap: 'var(--space-6)', marginTop: 'var(--space-2)' }}>
                 <CircleAction emphasis="primary" icon={PlusIcon} label="Add funds" />

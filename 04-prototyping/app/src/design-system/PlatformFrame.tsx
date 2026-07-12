@@ -1,6 +1,12 @@
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { usePlatform } from './PlatformProvider';
 import './PlatformFrame.css';
+
+/** Real logical device sizes — the frame never distorts; it scales to fit. */
+const DEVICE = {
+  ios: { w: 390, h: 844 },
+  android: { w: 412, h: 892 },
+} as const;
 
 /**
  * WALLET-011 — the presentation layer above the token layer.
@@ -67,9 +73,14 @@ export function PlatformFrame({ children }: { children: ReactNode }) {
   }
 
   const isIos = platform === 'ios';
+  const size = DEVICE[platform];
   return (
     <div className="mb-stage">
-      <div className={`mb-device ${isIos ? 'mb-device--ios' : 'mb-device--android'}`}>
+      <DeviceScaler width={size.w} height={size.h}>
+      <div
+        className={`mb-device ${isIos ? 'mb-device--ios' : 'mb-device--android'}`}
+        style={{ width: size.w, height: size.h }}
+      >
         {/* status bar */}
         <div className="mb-device__statusbar" aria-hidden="true">
           <span className="mb-device__time">9:41</span>
@@ -90,6 +101,29 @@ export function PlatformFrame({ children }: { children: ReactNode }) {
         {/* gesture / home indicator */}
         <div className="mb-device__homebar" aria-hidden="true" />
       </div>
+      </DeviceScaler>
+    </div>
+  );
+}
+
+/**
+ * Scales a fixed-size device to fit the viewport WITHOUT distorting its
+ * aspect ratio — the frame always looks like a phone, never an iPad.
+ */
+function DeviceScaler({ width, height, children }: { width: number; height: number; children: ReactNode }) {
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    const fit = () => {
+      const pad = 48;
+      setScale(Math.min(1, (window.innerHeight - pad) / height, (window.innerWidth - pad) / width));
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, [width, height]);
+  return (
+    <div style={{ width: width * scale, height: height * scale }}>
+      <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left' }}>{children}</div>
     </div>
   );
 }

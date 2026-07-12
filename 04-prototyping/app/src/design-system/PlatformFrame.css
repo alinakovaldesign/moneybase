@@ -109,10 +109,14 @@
   width: calc(var(--space-8) * 2);
 }
 
-/* Screens fill the device, not the browser viewport */
+/* Screens fill the device, not the browser viewport.
+   width:100% + margin:0 are load-bearing: the screen's own `margin: 0 auto`
+   would otherwise defeat flex stretching and shrink content to fit-content. */
 .mb-device__screen .mb-screen {
   min-height: 100%;
   max-width: none;
+  width: 100%;
+  margin: 0;
 }
 /* Wizard overlays stay INSIDE the device (and dim the whole device) */
 .mb-device .mb-wizard-backdrop,

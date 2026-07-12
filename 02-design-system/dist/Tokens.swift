@@ -13,6 +13,8 @@ enum MBTokens {
   static let surfaceDisabled = Color(red: 0.8941, green: 0.9176, blue: 0.9451)
   static let surfaceScrim = Color(red: 0.5765, green: 0.6510, blue: 0.7373)
   static let surfaceSuccess = Color(red: 0.8863, green: 0.9490, blue: 0.9176)
+  static let surfaceNav = Color(red: 0.0863, green: 0.1961, blue: 0.3608)
+  static let surfaceNavActive = Color(red: 0.0863, green: 0.6275, blue: 0.9647)
   static let textHeading = Color(red: 0.0863, green: 0.1961, blue: 0.3608)
   static let textPrimary = Color(red: 0.1725, green: 0.2431, blue: 0.3216)
   static let textLabel = Color(red: 0.2588, green: 0.3255, blue: 0.4157)

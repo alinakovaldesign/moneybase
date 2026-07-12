@@ -21,7 +21,7 @@
     "duration": { "fast": "150ms", "base": "250ms", "slow": "400ms" }
   },
   "semantic": {
-    "surface": { "page": "{gray.page}", "sheet": "{gray.sheet}", "raised": "{white}", "tint": "{blue.100}", "tint-hover": "{blue.150}", "chip": "{blue.50}", "chip-hover": "{blue.25}", "disabled": "{gray.disabled}", "scrim": "{slate.scrim}", "success": "{green.100}" },
+    "surface": { "page": "{gray.page}", "sheet": "{gray.sheet}", "raised": "{white}", "tint": "{blue.100}", "tint-hover": "{blue.150}", "chip": "{blue.50}", "chip-hover": "{blue.25}", "disabled": "{gray.disabled}", "scrim": "{slate.scrim}", "success": "{green.100}", "nav": "{navy.800}", "nav-active": "{blue.500}" },
     "text": { "heading": "{navy.800}", "primary": "{slate.800}", "label": "{slate.700}", "secondary": "{slate.600}", "muted": "{slate.500}", "disabled": "{slate.400}", "inverse": "{white}", "link": "{blue.500}" },
     "icon": { "primary": "{blue.500}", "tertiary": "{slate.350}" },
     "action": {

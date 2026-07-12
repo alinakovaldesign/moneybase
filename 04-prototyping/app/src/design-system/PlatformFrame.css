@@ -1,0 +1,228 @@
+/* WALLET-011 — platform presentation shells. Semantic tokens only. */
+
+/* ============ Device stage (iOS + Android) ============ */
+.mb-stage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: color-mix(in srgb, var(--surface-scrim) 22%, var(--surface-page));
+}
+.mb-device {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-page);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sheet), 0 0 0 var(--space-2) var(--text-heading);
+}
+/* HIG: continuous large corner radius, iPhone proportions */
+.mb-device--ios {
+  width: var(--layout-screen-max);
+  height: calc(var(--layout-screen-max) * 2.05);
+  border-radius: calc(var(--radius-sheet) * 2);
+}
+/* M3 device: slightly wider, tighter corners */
+.mb-device--android {
+  width: calc(var(--layout-screen-max) + var(--space-4));
+  height: calc(var(--layout-screen-max) * 2.05);
+  border-radius: calc(var(--radius-sheet) + var(--space-1));
+}
+
+.mb-device__statusbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-5) var(--space-1);
+  color: var(--text-heading);
+  position: relative;
+  z-index: 4;
+}
+.mb-device__time {
+  font-size: var(--type-body-sm-size);
+  font-weight: 700;
+  font-family: var(--font-body);
+}
+.mb-device__island {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: var(--space-2);
+  width: calc(var(--space-8) * 3);
+  height: calc(var(--space-6) + var(--space-1));
+  border-radius: var(--radius-pill);
+  background: var(--text-heading);
+}
+.mb-device__punchhole {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: var(--space-3);
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--text-heading);
+}
+.mb-device__status-icons {
+  display: inline-flex;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+/* M3 center-aligned top app bar */
+.mb-device__appbar {
+  flex-shrink: 0;
+  height: calc(var(--size-control-h) + var(--space-1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: var(--type-title-md-size);
+  font-weight: 600;
+  color: var(--text-heading);
+  background: var(--surface-page);
+}
+
+.mb-device__screen {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.mb-device__homebar {
+  flex-shrink: 0;
+  height: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.mb-device__homebar::after {
+  content: '';
+  width: calc(var(--space-8) * 4);
+  height: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--text-heading);
+  opacity: 0.28;
+}
+.mb-device--android .mb-device__homebar::after {
+  width: calc(var(--space-8) * 2);
+}
+
+/* Screens fill the device, not the browser viewport */
+.mb-device__screen .mb-screen {
+  min-height: 100%;
+  max-width: none;
+}
+/* Wizard overlays stay INSIDE the device */
+.mb-device__screen ~ * .mb-wizard-backdrop,
+.mb-device .mb-wizard-backdrop,
+.mb-device .mb-dialog-backdrop {
+  position: absolute;
+}
+
+/* ============ Web product shell (observed on live.moneybase.com) ============ */
+.mb-webshell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface-page);
+}
+.mb-webshell__sidebar {
+  width: calc(var(--layout-content-max) * 0.62);
+  flex-shrink: 0;
+  background: var(--surface-nav); /* deep navy sidebar — observed product shell */
+  color: var(--text-inverse);
+  padding: var(--space-5) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+.mb-webshell__logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--type-title-md-size);
+  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.mb-webshell__logo-mark {
+  font-size: var(--type-body-lg-size);
+}
+.mb-webshell__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--type-body-size);
+}
+.mb-webshell__nav-item {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-input);
+  opacity: 0.85;
+}
+.mb-webshell__nav-group {
+  padding: var(--space-3) var(--space-3) var(--space-1);
+  font-size: var(--type-caption-size);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+.mb-webshell__nav-item--sub {
+  padding-left: var(--space-6);
+}
+.mb-webshell__nav-item[data-active] {
+  background: var(--surface-nav-active); /* bright-blue active item — observed */
+  opacity: 1;
+  font-weight: 600;
+}
+.mb-webshell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mb-webshell__topbar {
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--border-divider);
+  padding: var(--space-3) var(--space-6);
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+.mb-webshell__search {
+  width: min(100%, calc(var(--layout-screen-max) + var(--space-8)));
+  height: calc(var(--size-control-h) - var(--space-3));
+  border: none;
+  border-radius: var(--radius-input);
+  background: var(--surface-page);
+  padding: 0 var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--type-body-size);
+  color: var(--text-primary);
+}
+.mb-webshell__search:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--space-1);
+}
+.mb-webshell__content {
+  flex: 1;
+  padding: var(--space-6);
+}
+/* Web: screens are a comfortable content column, not a phone strip */
+.mb-webshell__content .mb-screen {
+  max-width: calc(var(--layout-screen-max) + var(--space-8) * 4);
+  margin: 0;
+  min-height: auto;
+  padding: 0;
+}

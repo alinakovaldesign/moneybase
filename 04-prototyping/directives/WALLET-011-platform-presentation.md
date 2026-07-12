@@ -17,4 +17,7 @@
 - Pixel-perfect device chrome; new flow features; the QA pass itself (WALLET-008 follows).
 
 ## Learnings
-_(appended on completion)_
+- **iOS sheet + Android full-screen dialog + web modal verified live mid-flow** — switching platforms during the wizard re-presents the same step per guideline with zero state loss.
+- The web shell finding generalizes: research artifacts must be consumed by a directive, or they rot — WALLET-011 now cites the exact research section it applies.
+- Device frames are presentation containers, not screens: the one legitimate platform branch lives in PlatformFrame; screens stayed 100% shared.
+

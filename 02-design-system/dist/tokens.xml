@@ -11,6 +11,8 @@
   <color name="surface_disabled">#E4EAF1</color>
   <color name="surface_scrim">#93A6BC</color>
   <color name="surface_success">#E2F2EA</color>
+  <color name="surface_nav">#16325C</color>
+  <color name="surface_nav_active">#16A0F6</color>
   <color name="text_heading">#16325C</color>
   <color name="text_primary">#2C3E52</color>
   <color name="text_label">#42536A</color>

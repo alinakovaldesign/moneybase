@@ -44,7 +44,7 @@ Format per directive:
 - **Interventions**: 1 (human) — first archived preview didn't render like Claude Design; human redirected with the downloaded handoff bundle. Diagnosis: agent had omitted support.js (canvas runtime). Fix: complete bundle archived, render verified over local HTTP. **Why it mattered**: evidence must look like what the human actually designed.
 - **Verified by hand before accepting**: dc.html byte-identity (diff) between DesignSync fetch and human download; render check in browser; extraction values spot-checked against canvas source
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
-- **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
+- **Closed 2026-07-13**: DESIGN-001 canvas prompt archived verbatim (evidence/design-sessions/DESIGN-001/prompts.md) with an honest note: the A/B/C direction variants were not run — single-pass convergence; exploration evidence lives in DDR-002 (rejected directions), DESIGN-003 (real 2a-vs-2b comparison), and six live review rounds
 
 ## DESIGN-003 / WALLET-009 — Round trip + the design-carrying PR (Phase 7)
 - **Session**: 2026-07-13; canvas by human, implementation by Claude Code

@@ -120,9 +120,13 @@
   /* breathing room at scroll end, clear of the home-indicator zone */
   padding-bottom: calc(var(--space-8) + var(--space-6));
 }
-/* Sheets/dialogs inside the device keep scroll-end padding too */
+/* Inside devices the FOOTER carries the home-indicator clearance —
+   container bottom padding would show scrolled content beneath the footer */
 .mb-device .mb-wizard {
-  padding-bottom: calc(var(--space-8) + var(--space-4));
+  padding-bottom: 0;
+}
+.mb-device .mb-wizard__footer {
+  padding-bottom: calc(var(--space-6) + var(--space-4));
 }
 /* Wizard overlays stay INSIDE the device (and dim the whole device) */
 .mb-device .mb-wizard-backdrop,

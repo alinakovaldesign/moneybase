@@ -197,7 +197,9 @@
   box-shadow: var(--shadow-sheet);
   display: flex;
   flex-direction: column;
-  padding: var(--space-2) var(--space-5) var(--space-6);
+  /* NO bottom padding here — it would create a see-through strip under the
+     sticky footer; the footer carries the bottom inset itself. */
+  padding: var(--space-2) var(--space-5) 0;
   overflow-y: auto;
 }
 [data-platform='android'] .mb-wizard-backdrop {
@@ -305,7 +307,8 @@
   z-index: 5;
   background: var(--surface-sheet);
   margin: auto calc(var(--space-5) * -1) 0;
-  padding: var(--space-3) var(--space-5) var(--space-2);
+  /* bottom inset lives HERE so the footer background reaches the sheet edge */
+  padding: var(--space-3) var(--space-5) var(--space-6);
   box-shadow: 0 -1px 0 var(--border-divider);
 }
 .mb-wizard__title {

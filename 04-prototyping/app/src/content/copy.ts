@@ -75,7 +75,9 @@ export const wizard = {
   step3Title: 'Funding card',
   step3Subtitle: "Choose the card that funds this wallet. You'll review and consent before anything is linked.", // M5
   linkNewCard: 'Link a new card',
+  newCardNotice: (last4: string, label: string) => `New card •• ${last4} (${label}) will be linked after your consent.`, // M8 (deck addendum)
   continueCta: 'Continue',
+  backCta: 'Back',
   cancelCta: 'Cancel',
 } as const;
 

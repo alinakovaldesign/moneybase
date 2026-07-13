@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { consent, explainer, errors, loading } from '../../content/copy';
+import { useEffect, useRef, useState } from 'react';
+import { consent, explainer, errors, loading, wizard } from '../../content/copy';
 import { Button } from '../../design-system/components/Button';
 import { ConsentCheckbox } from '../../design-system/components/ConsentCheckbox';
 
@@ -30,12 +30,19 @@ export function Step4Consent({
 }) {
   const [phase, setPhase] = useState<'explainer' | 'consent'>('explainer');
   const [ticked, setTicked] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  // Each sub-screen (explainer → consent → failure) moves focus to its heading,
+  // matching the wizard's step-change behavior (WCAG 2.4.3).
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [phase, linkError]);
 
   if (linkError) {
     // Card-link failure: specific message, retry, different card — draft never lost.
     return (
       <>
-        <h3 className="mb-wizard__title" tabIndex={-1}>{errors.cardLink.title}</h3>
+        <h3 className="mb-wizard__title" tabIndex={-1} ref={headingRef}>{errors.cardLink.title}</h3>
         <div className="mb-card mb-card--sm" role="alert">
           <p style={{ margin: 0, fontSize: 'var(--type-body-size)', color: 'var(--text-primary)', lineHeight: 1.55 }}>{linkError}</p>
           <p style={{ margin: 'var(--space-2) 0 0', fontSize: 'var(--type-body-sm-size)', color: 'var(--text-secondary)' }}>
@@ -57,7 +64,7 @@ export function Step4Consent({
   if (phase === 'explainer') {
     return (
       <>
-        <h3 className="mb-wizard__title" tabIndex={-1}>{explainer.title}</h3>
+        <h3 className="mb-wizard__title" tabIndex={-1} ref={headingRef}>{explainer.title}</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           {explainer.panels.map((p, i) => {
             const title = typeof p.title === 'function' ? p.title(baseCurrency) : p.title;
@@ -96,7 +103,7 @@ export function Step4Consent({
         </div>
         <div className="mb-wizard__footer">
           <Button variant="primary" fullWidth onClick={() => setPhase('consent')}>
-            Continue
+            {wizard.continueCta}
           </Button>
         </div>
       </>
@@ -105,7 +112,7 @@ export function Step4Consent({
 
   return (
     <>
-      <h3 className="mb-wizard__title" tabIndex={-1}>{consent.title}</h3>
+      <h3 className="mb-wizard__title" tabIndex={-1} ref={headingRef}>{consent.title}</h3>
       <p className="mb-screen__subtitle" style={{ margin: 0 }}>{consent.subtitle}</p>
       <div className="mb-card mb-card--sm">
         {consent.bullets(cardLabel, walletName).map((b, i) => (
@@ -121,7 +128,7 @@ export function Step4Consent({
 
       <ConsentCheckbox checked={ticked} onChange={setTicked} label={consent.checkbox(walletName)} />
 
-      {linking && <div className="mb-loading-line">{loading.cardLink}</div>}
+      {linking && <div className="mb-loading-line" role="status">{loading.cardLink}</div>}
 
       <div className="mb-wizard__footer">
         {/* Agree stays disabled until the box is ticked — never pre-ticked. */}

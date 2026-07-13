@@ -89,7 +89,8 @@
   padding: var(--space-3) 0;
 }
 .mb-kv + .mb-kv {
-  border-top: 1px solid var(--border-divider);
+  /* platform divider: hairline on iOS, none on Android (tonal), 1px web */
+  border-top: var(--divider-width, 1px) solid var(--border-divider);
 }
 .mb-kv__key {
   font-size: var(--type-body-sm-size);
@@ -258,6 +259,7 @@
   cursor: pointer;
   width: calc(var(--space-8) * 2);
   text-align: left;
+  min-height: var(--target-min, 44px); /* HIG/M3 target size */
 }
 .mb-wizard__bar-title {
   flex: 1;

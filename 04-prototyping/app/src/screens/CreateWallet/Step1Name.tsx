@@ -28,6 +28,13 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
     };
   }, []);
 
+  // Returning to this step with an invalid non-empty name (e.g. duplicate caught
+  // at submit time) revalidates immediately so the inline error explains WHY.
+  useEffect(() => {
+    if (value.name.trim() && !value.nameValid) void validateName(value.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Dropdown closes on outside click — behaves like a real select.
   useEffect(() => {
     if (!pickerOpen) return;
@@ -88,9 +95,9 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
           ) : undefined
         }
       />
-      {checking && <div className="mb-loading-line">{loading.nameCheck}</div>}
+      {checking && <div className="mb-loading-line" role="status">{loading.nameCheck}</div>}
 
-      <div className="mb-select" ref={pickerRef}>
+      <div className="mb-select" ref={pickerRef} onKeyDown={(e) => e.key === 'Escape' && setPickerOpen(false)}>
         <span style={{ fontSize: 'var(--type-body-sm-size)', fontWeight: 600, color: 'var(--text-label)' }}>
           {wizard.baseCurrencyLabel}
         </span>

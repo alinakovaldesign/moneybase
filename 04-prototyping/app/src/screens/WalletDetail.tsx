@@ -113,7 +113,7 @@ export function WalletDetail() {
 
   return (
     <main className="mb-screen mb-detail">
-      <Link to="/" aria-label="Back to wallets" style={{ color: 'var(--text-label)', display: 'inline-flex', padding: 'var(--space-2)', margin: 'calc(var(--space-2) * -1)' }}>
+      <Link to="/" aria-label="Back to wallets" style={{ color: 'var(--text-label)', display: 'inline-flex', padding: 'var(--space-3)', margin: 'calc(var(--space-3) * -1)', minWidth: 'var(--target-min, 44px)', minHeight: 'var(--target-min, 44px)', alignItems: 'center', justifyContent: 'center' }}>
         <svg width="8" height="14" viewBox="0 0 8 14" aria-hidden="true">
           <path d="M7 1L1 7l6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -148,7 +148,7 @@ export function WalletDetail() {
                   type="button"
                   aria-label="Rename wallet"
                   onClick={() => { setNameDraft(wallet.name); setRenaming(true); }}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--icon-primary)', padding: 'var(--space-1)', display: 'inline-flex' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--icon-primary)', padding: 'var(--space-3)', margin: 'calc(var(--space-2) * -1)', display: 'inline-flex' }}
                 >
                   <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M13.5 3.5l3 3L7 16H4v-3l9.5-9.5z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
@@ -207,7 +207,7 @@ export function WalletDetail() {
               <button
                 type="button"
                 onClick={() => { setManageOpen((o) => !o); setCardLabelDraft(card.label); }}
-                style={{ background: 'none', border: 'none', color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)', cursor: 'pointer', fontFamily: 'var(--font-body)', flexShrink: 0, padding: 0 }}
+                style={{ background: 'none', border: 'none', color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)', cursor: 'pointer', fontFamily: 'var(--font-body)', flexShrink: 0, padding: 'var(--space-3)', margin: 'calc(var(--space-3) * -1) calc(var(--space-2) * -1)', minHeight: 'var(--target-min, 44px)' }}
               >
                 {walletDetail.manageCta}
               </button>
@@ -247,7 +247,7 @@ export function WalletDetail() {
       </div>
 
       {addOpen && (
-        <div className="mb-dialog-backdrop" role="dialog" aria-label={walletDetail.addCurrencyTitle}>
+        <div className="mb-dialog-backdrop" role="dialog" aria-modal="true" aria-label={walletDetail.addCurrencyTitle} onKeyDown={(e) => e.key === 'Escape' && setAddOpen(false)}>
           <div className="mb-dialog">
             <h3 className="mb-dialog__title">{walletDetail.addCurrencyTitle}</h3>
             {addable.length === 0 ? (
@@ -265,13 +265,13 @@ export function WalletDetail() {
                     <Flag code={c.code} />
                     <span className="mb-pick__code">{c.code}</span>
                     <span className="mb-pick__name">{c.name}</span>
-                    {addBusy === c.code && <span className="mb-loading-line" style={{ marginLeft: 'auto' }} />}
+                    {addBusy === c.code && <span className="mb-loading-line" role="status" style={{ marginLeft: 'auto' }}>Adding…</span>}
                   </button>
                 ))}
               </div>
             )}
             <div className="mb-dialog__actions">
-              <Button variant="primary" onClick={() => setAddOpen(false)}>{walletDetail.addCurrencyDone}</Button>
+              <Button variant="primary" autoFocus onClick={() => setAddOpen(false)}>{walletDetail.addCurrencyDone}</Button>
             </div>
           </div>
         </div>

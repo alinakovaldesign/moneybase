@@ -2,7 +2,7 @@
   "$note": "DESIGN-002 output: extracted from the frozen DESIGN-001 canvas (see ../extraction-DESIGN-002.md for the full canvas→token table and normalization decisions). Two layers: primitive → semantic. Platform themes override only the platforms.* set. Style Dictionary-compatible shape. WALLET-001 consumes this.",
   "primitive": {
     "color": {
-      "blue": { "500": "#16A0F6", "600": "#0F86D2", "100": "#DEEEFD", "150": "#CFE5FB", "200": "#AFD6F9", "50": "#F1F6FC", "25": "#EAF4FE" },
+      "blue": { "500": "#16A0F6", "600": "#0F86D2", "700": "#0074C2", "800": "#005FA3", "100": "#DEEEFD", "150": "#CFE5FB", "200": "#AFD6F9", "50": "#F1F6FC", "25": "#EAF4FE" },
       "navy": { "800": "#16325C", "900": "#023778" },
       "amber": { "500": "#FFBD00", "600": "#F0B200" },
       "red": { "600": "#C0392B" },
@@ -22,16 +22,16 @@
   },
   "semantic": {
     "surface": { "page": "{gray.page}", "sheet": "{gray.sheet}", "raised": "{white}", "tint": "{blue.100}", "tint-hover": "{blue.150}", "chip": "{blue.50}", "chip-hover": "{blue.25}", "disabled": "{gray.disabled}", "scrim": "{slate.scrim}", "success": "{green.100}", "nav": "{navy.800}", "nav-active": "{blue.500}" },
-    "text": { "heading": "{navy.800}", "primary": "{slate.800}", "label": "{slate.700}", "secondary": "{slate.600}", "muted": "{slate.500}", "disabled": "{slate.400}", "inverse": "{white}", "link": "{blue.500}" },
+    "text": { "heading": "{navy.800}", "primary": "{slate.800}", "label": "{slate.700}", "secondary": "{slate.600}", "muted": "{slate.500}", "disabled": "{slate.400}", "inverse": "{white}", "link": "{blue.700}" },
     "icon": { "primary": "{blue.500}", "tertiary": "{slate.350}" },
     "action": {
-      "primary-bg": "{blue.500}", "primary-bg-hover": "{blue.600}", "primary-text": "{white}",
+      "primary-bg": "{blue.700}", "primary-bg-hover": "{blue.800}", "primary-text": "{white}",
       "accent-bg": "{amber.500}", "accent-bg-hover": "{amber.600}", "accent-text": "{navy.800}",
       "secondary-bg": "{blue.100}", "secondary-bg-hover": "{blue.150}", "secondary-text": "{navy.800}",
       "disabled-bg": "{gray.disabled}", "disabled-text": "{slate.400}"
     },
     "feedback": { "error": "{red.600}", "success": "{green.600}", "success-bg": "{green.100}", "warning": "#B7791F" },
-    "border": { "default": "{gray.border}", "input": "{gray.input-border}", "divider": "{gray.divider}", "focus": "{blue.500}", "dashed-accent": "{blue.200}", "error": "{red.600}" },
+    "border": { "default": "{gray.border}", "input": "{gray.input-border}", "divider": "{gray.divider}", "focus": "{blue.700}", "dashed-accent": "{blue.200}", "error": "{red.600}" },
     "shadow": {
       "card": "0 1px 3px rgba(22,50,92,0.06)",
       "action": "0 2px 6px rgba(22,160,246,0.35)",
@@ -51,8 +51,8 @@
     "control": { "radius": "{radius.button}", "height": "{size.control-h}" }
   },
   "platforms": {
-    "ios":     { "control.radius": "{radius.button}", "target-min": "44px", "divider": "hairline", "motion": "spring", "presentation": "sheet", "$guideline": "HIG: 44pt targets, sheet presentation, hairlines over shadows — matches canvas (iOS-first)" },
-    "android": { "control.radius": "{radius.pill}", "target-min": "48px", "divider": "elevation", "motion": "emphasized-easing", "presentation": "fullscreen-dialog", "$guideline": "M3: 48dp targets, full-radius buttons, tonal elevation, full-screen dialogs" },
+    "ios":     { "control.radius": "{radius.button}", "target-min": "44px", "divider": "hairline", "motion": "spring", "presentation": "sheet", "focus": "visible-ring", "$guideline": "HIG: 44pt targets, sheet presentation, hairlines over shadows — matches canvas (iOS-first). Focus ring kept visible: the prototype runs in a browser, keyboard users exist on every skin (WCAG 2.4.7)" },
+    "android": { "control.radius": "{radius.pill}", "target-min": "48px", "divider": "elevation", "motion": "emphasized-easing", "presentation": "fullscreen-dialog", "focus": "visible-ring", "$guideline": "M3: 48dp targets, full-radius buttons, tonal elevation, full-screen dialogs. Focus ring kept visible (WCAG 2.4.7)" },
     "web":     { "control.radius": "{radius.input}", "control.height": "44px", "divider": "border", "motion": "ease-out", "presentation": "centered-modal", "focus": "visible-ring", "$guideline": "Web: denser controls, visible focus rings, hover states (canvas hover values already extracted)" }
   }
 }

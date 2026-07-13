@@ -8,8 +8,8 @@ import { CardBadge } from './CardBadge';
 
 export interface Step3Value {
   cardId?: string;
-  /** A locally "linked" new card lives only in wizard state until consent completes. */
-  newCard?: { last4: string; label: string };
+  /** A locally captured new card lives only in wizard state until consent completes. */
+  newCard?: { last4: string; label: string; network: 'visa' | 'mastercard' };
 }
 
 /** WALLET-006 (part 1) — select an existing card or link a new one. */
@@ -85,18 +85,22 @@ export function Step3Card({
             </button>
           ))}
 
-          <button
-            type="button"
-            className="mb-pick"
-            aria-expanded={showNewForm}
-            data-selected={(!!value.newCard && !value.cardId) || undefined}
-            onClick={() => setShowNewForm((s) => !s)}
-          >
-            <span className="mb-pick__code" style={{ color: 'var(--text-link)' }}>
-              + {wizard.linkNewCard}
-            </span>
-          </button>
         </div>
+      )}
+
+      {/* Outside the radiogroup — it is a disclosure, not a radio (ARIA 1.3.1) */}
+      {cards !== null && (
+        <button
+          type="button"
+          className="mb-pick"
+          aria-expanded={showNewForm}
+          data-selected={(!!value.newCard && !value.cardId) || undefined}
+          onClick={() => setShowNewForm((s) => !s)}
+        >
+          <span className="mb-pick__code" style={{ color: 'var(--text-link)' }}>
+            + {wizard.linkNewCard}
+          </span>
+        </button>
       )}
 
       {showNewForm && (
@@ -121,7 +125,11 @@ export function Step3Card({
             style={{ justifyContent: 'center' }}
             onClick={() => {
               if (validateNumber(number)) {
-                onChange({ cardId: undefined, newCard: { last4: number.replace(/\s/g, '').slice(-4), label: label || 'New card' } });
+                const digits = number.replace(/\s/g, '');
+                onChange({
+                  cardId: undefined,
+                  newCard: { last4: digits.slice(-4), label: label || 'New card', network: digits.startsWith('4') ? 'visa' : 'mastercard' },
+                });
                 setShowNewForm(false);
               }
             }}
@@ -133,7 +141,7 @@ export function Step3Card({
 
       {value.newCard && !value.cardId && (
         <div className="mb-banner" role="status">
-          New card •• {value.newCard.last4} ({value.newCard.label}) will be linked after your consent.
+          {wizard.newCardNotice(value.newCard.last4, value.newCard.label)}
         </div>
       )}
     </>

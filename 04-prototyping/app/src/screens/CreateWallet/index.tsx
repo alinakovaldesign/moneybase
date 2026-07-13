@@ -25,6 +25,7 @@ export function CreateWalletWizard() {
   const [cancelOpen, setCancelOpen] = useState(false);
   const [linking, setLinking] = useState(false);
   const [linkError, setLinkError] = useState<string | null>(null);
+  const [submitCurrencyError, setSubmitCurrencyError] = useState<string | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [createdId, setCreatedId] = useState<string | null>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -55,28 +56,38 @@ export function CreateWalletWizard() {
     setLinking(true);
     setLinkError(null);
     try {
-      await walletService.linkCard(step3.cardId ?? 'new-card', true);
+      // Order matters in the money path: validate the draft BEFORE exercising
+      // the consented card link, so consent maps to exactly one commitment.
+      const { available } = await walletService.checkName(step1.name);
+      if (!available) throw new WalletError('DUPLICATE_NAME', 'duplicate at submit');
+      const linked = await walletService.linkCard(step3.cardId, true, step3.cardId ? undefined : step3.newCard);
       setPhase('creating');
       const wallet = await walletService.createWallet({
         name: step1.name,
         baseCurrency: step1.baseCurrency,
         additionalCurrencies: additional,
-        cardId: step3.cardId ?? 'new-card',
+        cardId: linked.cardId,
       });
       setCreatedId(wallet.id);
       setPhase('success');
     } catch (e) {
-      if (e instanceof WalletError && e.code === 'CARD_LINK_FAILED') {
-        setLinkError(e.message);
-      } else if (e instanceof WalletError && e.code === 'DUPLICATE_NAME') {
-        // Duplicate slipped through (e.g. ?fail=duplicate at submit time) — back to step 1.
+      if (e instanceof WalletError && e.code === 'DUPLICATE_NAME') {
+        // Back to step 1 — Step1Name revalidates on mount and shows the inline error.
         setPhase('wizard');
         setStep(1);
         setStep1((s) => ({ ...s, nameValid: false }));
+      } else if (e instanceof WalletError && e.code === 'UNSUPPORTED_CURRENCY') {
+        // Back to step 2 with the specific message — not a fake card error.
+        setSubmitCurrencyError(e.message);
+        setPhase('wizard');
+        setStep(2);
+      } else if (e instanceof WalletError && e.code === 'CARD_LINK_FAILED') {
+        setLinkError(e.message);
+        setPhase('wizard');
       } else {
         setLinkError(e instanceof Error ? e.message : 'Something went wrong.');
+        setPhase('wizard');
       }
-      setPhase('wizard');
     } finally {
       setLinking(false);
     }
@@ -150,7 +161,14 @@ export function CreateWalletWizard() {
           {step === 2 && (
             <>
               <h2 className="mb-wizard__title" tabIndex={-1} ref={titleRef}>{wizard.step2Title}</h2>
-              <Step2Currencies baseCurrency={step1.baseCurrency} selected={additional} onChange={setAdditional} />
+              {submitCurrencyError && (
+                <div className="mb-banner" role="alert">{submitCurrencyError}</div>
+              )}
+              <Step2Currencies
+                baseCurrency={step1.baseCurrency}
+                selected={additional}
+                onChange={(codes) => { setAdditional(codes); setSubmitCurrencyError(null); }}
+              />
             </>
           )}
           {step === 3 && (
@@ -176,7 +194,7 @@ export function CreateWalletWizard() {
               onUseDifferentCard={() => { setLinkError(null); setStep3({}); setStep(3); }}
             />
           )}
-          {phase === 'creating' && <div className="mb-loading-line">{loadingCopy.createWallet}</div>}
+          {phase === 'creating' && <div className="mb-loading-line" role="status">{loadingCopy.createWallet}</div>}
         </div>
 
         {step < 4 && (
@@ -187,7 +205,7 @@ export function CreateWalletWizard() {
             {step > 1 && (
               // Back preserves entered data — state lives in the container.
               <Button variant="secondary" fullWidth onClick={() => setStep((s) => s - 1)}>
-                Back
+                {wizard.backCta}
               </Button>
             )}
           </div>
@@ -195,13 +213,20 @@ export function CreateWalletWizard() {
       </div>
 
       {cancelOpen && (
-        <div className="mb-dialog-backdrop" role="alertdialog" aria-label={wizard.cancelDialog.title}>
+        <div
+          className="mb-dialog-backdrop"
+          role="alertdialog"
+          aria-modal="true"
+          aria-label={wizard.cancelDialog.title}
+          onKeyDown={(e) => e.key === 'Escape' && setCancelOpen(false)}
+        >
           <div className="mb-dialog">
             <h3 className="mb-dialog__title">{wizard.cancelDialog.title}</h3>
             <p className="mb-dialog__body">{wizard.cancelDialog.body}</p>
             <div className="mb-dialog__actions">
-              <Button variant="secondary" onClick={() => setCancelOpen(false)}>{wizard.cancelDialog.keepCta}</Button>
-              <Button variant="primary" onClick={() => navigate('/')}>{wizard.cancelDialog.discardCta}</Button>
+              {/* Safe action carries the emphasis; destructive Discard is secondary (HIG/M3) */}
+              <Button variant="primary" autoFocus onClick={() => setCancelOpen(false)}>{wizard.cancelDialog.keepCta}</Button>
+              <Button variant="secondary" onClick={() => navigate('/')}>{wizard.cancelDialog.discardCta}</Button>
             </div>
           </div>
         </div>

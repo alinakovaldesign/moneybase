@@ -42,11 +42,11 @@
   --text-muted: #7E8CA0;
   --text-disabled: #9FACBC;
   --text-inverse: #FFFFFF;
-  --text-link: #16A0F6;
+  --text-link: #0074C2;
   --icon-primary: #16A0F6;
   --icon-tertiary: #A9B6C6;
-  --action-primary-bg: #16A0F6;
-  --action-primary-bg-hover: #0F86D2;
+  --action-primary-bg: #0074C2;
+  --action-primary-bg-hover: #005FA3;
   --action-primary-text: #FFFFFF;
   --action-accent-bg: #FFBD00;
   --action-accent-bg-hover: #F0B200;
@@ -63,7 +63,7 @@
   --border-default: #E1E8F0;
   --border-input: #D8E2EC;
   --border-divider: #EAF0F6;
-  --border-focus: #16A0F6;
+  --border-focus: #0074C2;
   --border-dashed-accent: #AFD6F9;
   --border-error: #C0392B;
   --shadow-card: 0 1px 3px rgba(22,50,92,0.06);
@@ -102,7 +102,7 @@
   --control-height: 52px;
 }
 
-/* IOS — HIG: 44pt targets, sheet presentation, hairlines over shadows — matches canvas (iOS-first) */
+/* IOS — HIG: 44pt targets, sheet presentation, hairlines over shadows — matches canvas (iOS-first). Focus ring kept visible: the prototype runs in a browser, keyboard users exist on every skin (WCAG 2.4.7) */
 [data-platform="ios"] {
   --control-radius: 12px;
   --target-min: 44px;
@@ -110,10 +110,10 @@
   --list-shadow: none;
   --motion-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --presentation: sheet;
-  --focus-ring: none;
+  --focus-ring: 2px solid var(--border-focus); /* web: visible focus rings */
 }
 
-/* ANDROID — M3: 48dp targets, full-radius buttons, tonal elevation, full-screen dialogs */
+/* ANDROID — M3: 48dp targets, full-radius buttons, tonal elevation, full-screen dialogs. Focus ring kept visible (WCAG 2.4.7) */
 [data-platform="android"] {
   --control-radius: 999px;
   --target-min: 48px;
@@ -121,7 +121,7 @@
   --list-shadow: var(--shadow-card); /* M3: tonal elevation instead of dividers */
   --motion-ease: cubic-bezier(0.2, 0, 0, 1);
   --presentation: fullscreen-dialog;
-  --focus-ring: none;
+  --focus-ring: 2px solid var(--border-focus); /* web: visible focus rings */
 }
 
 /* WEB — Web: denser controls, visible focus rings, hover states (canvas hover values already extracted) */

@@ -138,8 +138,14 @@ export const walletService = {
   /**
    * Links a card in the context of wallet creation. Consent must be explicit —
    * the service enforces what the UI promises (no consent, no charge authority).
+   * Pass `newCard` to link a card entered in the wizard: it is registered and
+   * its generated id returned (fixes the false-decline on the new-card path).
    */
-  async linkCard(cardId: string, consentGiven: boolean): Promise<{ cardId: string }> {
+  async linkCard(
+    cardId: string | undefined,
+    consentGiven: boolean,
+    newCard?: { last4: string; label: string; network: 'visa' | 'mastercard' },
+  ): Promise<{ cardId: string }> {
     await delay();
     if (!consentGiven || failFlag() === 'consent') {
       throw new WalletError(
@@ -155,7 +161,18 @@ export const walletService = {
         'Retry, or choose a different card. Your wallet draft is safe.',
       );
     }
-    if (!cards.some((c) => c.id === cardId)) {
+    if (newCard) {
+      const registered: Card = {
+        id: `card-${cards.length + 1}`,
+        network: newCard.network,
+        last4: newCard.last4,
+        label: newCard.label,
+        expires: '12/29',
+      };
+      cards.push(registered);
+      return { cardId: registered.id };
+    }
+    if (!cardId || !cards.some((c) => c.id === cardId)) {
       throw new WalletError('CARD_LINK_FAILED', 'This card is no longer available.', 'Choose a different card.');
     }
     return { cardId };

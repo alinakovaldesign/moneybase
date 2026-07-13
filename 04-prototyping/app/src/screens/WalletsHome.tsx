@@ -116,7 +116,13 @@ export function WalletsHome() {
             <span>Wallet</span>
             <span>Amount</span>
           </div>
-          {wallets?.length === 0 ? (
+          {wallets === null ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', paddingTop: 'var(--space-3)' }} aria-label="Loading wallets">
+              <Skeleton height="var(--size-control-h)" />
+              <Skeleton height="var(--size-control-h)" />
+              <Skeleton height="var(--size-control-h)" width="60%" />
+            </div>
+          ) : wallets.length === 0 ? (
             <EmptyWallets onCreate={() => navigate('/create')} />
           ) : (
             <>

@@ -46,6 +46,36 @@ Format per directive:
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
 - **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
 
+## WALLET-008 — QA pass: subagent reviews, fixes, error-state verification (Phase 6b)
+- **Session**: 2026-07-12, Claude Code; two reviewer subagents run in parallel (design-critic vs HIG/M3/web + charter; a11y-auditor vs WCAG 2.1 AA)
+- **Subagent findings**: design-critic 2 blockers / 13 should-fix / 12 polish; a11y-auditor 4 blockers / 8 should-fix / 3 polish. Full reports preserved in the session transcript.
+- **FIXED (this pass)**:
+  - [blocker] Link-a-new-card path always failed with a false "card declined" (service rejected unknown ids) → service now registers wizard-entered cards and returns their id; verified end-to-end in browser (Treasury Ops + Travel Visa •• 4242)
+  - [blocker] Duplicate name at submit failed silently → submit pre-checks the name BEFORE exercising the consented card link (consent maps to one commitment); Step1 revalidates on mount and shows the inline error
+  - [blocker] Contrast: white-on-#16A0F6 2.84:1 → token split, text-bearing blue #0074C2 (4.91:1), links + focus ring included (DDR-004)
+  - [blocker] --focus-ring:none removed keyboard focus on iOS/Android skins → visible-ring on all platforms (DDR-004)
+  - Unsupported currency at submit surfaced as a fake card error → routes to step 2 with the specific message (X2b placement)
+  - Escape + aria-modal + initial focus on cancel and add-currency dialogs; Escape closes the currency dropdown
+  - Step-4 sub-screens (explainer/consent/failure) now move focus to their headings
+  - Loading states announced (role=status): name check, card link, wallet creation, add-currency
+  - "+ Link a new card" moved out of the radiogroup (ARIA 1.3.1)
+  - Destructive Discard demoted; safe action carries emphasis (HIG/M3)
+  - .mb-kv dividers use the platform divider token (hairline iOS / none Android)
+  - Touch targets: wizard Cancel, Manage, rename pencil, back link, chips raised to/near --target-min
+  - Web home table gained its missing loading skeletons
+  - Hardcoded strings in the money path moved to copy.ts (M8 new-card notice, Continue/Back)
+- **DEFERRED (logged, with reasons)**:
+  - M3 full-screen dialog top-app-bar anatomy (X-close leading, action trailing) — presentation-layer rework; noted for WALLET-011 follow-up
+  - Focus TRAP in dialogs (Escape/restore/initial focus done; full trap needs a focus-trap utility)
+  - Roving tabindex/arrow keys for radio groups and listbox typeahead (reachable/operable via Tab today)
+  - Success auto-advance timing control (SC 2.2.1) — hold is reduced-motion-aware; full "extend time" control deferred
+  - Step-4 sub-steps sharing one progress segment; border-width tokenization; remaining hardcoded-string tail; inert chips rendered as buttons
+- **Error-state verification (?fail flags + flows, live browser)**: duplicate-name — iOS (inline+suggestion) ✓, web (submit-path logic) ✓ · unsupported-currency — iOS/Android/web (shown-disabled with reasons) ✓ · card-link-failure — web (?fail=cardlink full path: retry + use-different-card + draft safe) ✓, iOS (prior session) ✓ · consent-declined — iOS (prior session: banner + draft intact) ✓ · new-card happy path — web ✓
+- **Verified by hand before accepting**: every fix above exercised or screenshot-checked in the browser; builds clean; hex-grep clean
+- **Accepted / rejected**: all fixes accepted by QA mandate; DDR-004 color decision awaits human sign-off (1-line revert available)
+
+---
+
 ## WALLET-003..007 + CONTENT-001/002 — Copy decks + the full flow (Phases 4–5)
 - **Session**: 2026-07-12, Claude Code
 - **Directives given**: CONTENT-001/002 (03-content-creation), WALLET-003..007 (04-prototyping)

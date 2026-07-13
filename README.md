@@ -1,6 +1,6 @@
 # Moneybase — Multi-currency wallet + card linking (B2B)
 
-**Live prototype**: https://alinakovaldesign.github.io/moneybase/ · **Storybook**: https://alinakovaldesign.github.io/moneybase/storybook/ · **Design PR**: https://github.com/alinakovaldesign/moneybase/pull/1
+**Live prototype**: https://alinakovaldesign.github.io/moneybase/ · **Storybook**: https://alinakovaldesign.github.io/moneybase/storybook/ · **Design PR**: https://github.com/alinakovaldesign/moneybase/pull/1 · **Case documentation (Notion)**: https://app.notion.com/p/Moneybase-39b5c841625680f8b43dcada32a28208
 
 An **agentic product design workspace** for the Moneybase design-engineer assessment: the full end-to-end workflow — research → design system → content → prototyping — run by directing AI agents, with every decision traceable from written directive → agent session → commit → PR.
 

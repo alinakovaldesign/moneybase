@@ -113,7 +113,7 @@ export function WalletDetail() {
 
   return (
     <main className="mb-screen mb-detail">
-      <Link to="/" aria-label="Back to wallets" style={{ color: 'var(--text-label)', display: 'inline-flex', padding: 'var(--space-3)', margin: 'calc(var(--space-3) * -1)', minWidth: 'var(--target-min, 44px)', minHeight: 'var(--target-min, 44px)', alignItems: 'center', justifyContent: 'center' }}>
+      <Link to="/" aria-label="Back to wallets" style={{ color: 'var(--text-label)', display: 'inline-flex', padding: 'var(--space-3)', margin: 'calc(var(--space-3) * -1)', minWidth: 'var(--target-min, 44px)', minHeight: 'var(--target-min, 44px)', alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' /* flex column stretches children — size to content, stay left */ }}>
         <svg width="8" height="14" viewBox="0 0 8 14" aria-hidden="true">
           <path d="M7 1L1 7l6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </svg>

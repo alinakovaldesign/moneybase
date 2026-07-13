@@ -122,6 +122,18 @@ export const walletService = {
     return structuredClone(cards);
   },
 
+  /** Mock FX rates to EUR (DESIGN-003: total-value hero + ≈ equivalents). */
+  async getRates(): Promise<{ base: 'EUR'; asOf: string; toEUR: Record<string, number> }> {
+    await delay();
+    const now = new Date();
+    const asOf = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    return {
+      base: 'EUR',
+      asOf,
+      toEUR: { EUR: 1, USD: 0.92, GBP: 1.1539, CHF: 1.045, PLN: 0.235, SEK: 0.0885, NOK: 0.0865, DKK: 0.134, CZK: 0.0405, HUF: 0.0025 },
+    };
+  },
+
   /** Case- and whitespace-insensitive duplicate check (WALLET-002 acceptance). */
   async checkName(name: string): Promise<{ available: boolean; suggestion?: string }> {
     await delay();

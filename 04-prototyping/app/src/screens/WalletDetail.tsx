@@ -5,7 +5,6 @@ import { WalletError, type Card, type Currency, type Wallet } from '../services/
 import { formatMoney, formatMoneyParts } from '../services/money';
 import { home, walletDetail } from '../content/copy';
 import { Flag } from '../design-system/components/Flag';
-import { Chip } from '../design-system/components/Chip';
 import { CircleAction } from '../design-system/components/CircleAction';
 import { Skeleton } from '../design-system/components/Skeleton';
 import { Button } from '../design-system/components/Button';
@@ -28,14 +27,18 @@ const DetailsIcon = (
   </svg>
 );
 
-/** WALLET-007 — funded wallet landing: card visible + manageable; deep-linkable.
- *  Web renders the product's two-panel anatomy (identity panel + table panel);
- *  mobile keeps the canvas 1f single column. Divergence is CSS-only. */
+/** Distribution-bar segment colors, assigned by share order (DESIGN-003 2b). */
+const CHART_TOKENS = ['var(--chart-primary)', 'var(--chart-secondary)', 'var(--chart-tertiary)'];
+
+/** WALLET-007 + WALLET-009 rework (DESIGN-003 2b): total-value hero with
+ *  distribution bar, ONE merged currency list, funding card demoted.
+ *  Web renders two product-style panels; mobile single column. */
 export function WalletDetail() {
   const { id } = useParams();
   const [wallet, setWallet] = useState<Wallet | null | undefined>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [rates, setRates] = useState<{ asOf: string; toEUR: Record<string, number> } | null>(null);
   const [manageOpen, setManageOpen] = useState(false);
   const [cardLabelDraft, setCardLabelDraft] = useState('');
   const [renaming, setRenaming] = useState(false);
@@ -47,14 +50,18 @@ export function WalletDetail() {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([walletService.getWallet(id ?? ''), walletService.listCards(), walletService.listCurrencies()]).then(
-      ([w, c, cur]) => {
-        if (!alive) return;
-        setWallet(w);
-        setCards(c);
-        setCurrencies(cur);
-      },
-    );
+    Promise.all([
+      walletService.getWallet(id ?? ''),
+      walletService.listCards(),
+      walletService.listCurrencies(),
+      walletService.getRates(),
+    ]).then(([w, c, cur, r]) => {
+      if (!alive) return;
+      setWallet(w);
+      setCards(c);
+      setCurrencies(cur);
+      setRates(r);
+    });
     return () => {
       alive = false;
     };
@@ -79,10 +86,18 @@ export function WalletDetail() {
     );
   }
 
-  const base = wallet.balances.find((b) => b.currency === wallet.baseCurrency);
-  const parts = formatMoneyParts(base?.amountMinor ?? 0, wallet.baseCurrency);
-  const funded = wallet.balances.some((b) => b.amountMinor > 0);
-  const card = cards.find((c) => c.id === wallet.fundingCardId) ?? (wallet.fundingCardId ? { id: wallet.fundingCardId, network: 'visa' as const, last4: '••••', label: 'Linked card', expires: '' } : undefined);
+  const toEUR = (currency: string, amountMinor: number) => Math.round(amountMinor * (rates?.toEUR[currency] ?? 1));
+  const totalMinor = wallet.balances.reduce((sum, b) => sum + toEUR(b.currency, b.amountMinor), 0);
+  const totalParts = formatMoneyParts(totalMinor, 'EUR');
+  const funded = totalMinor > 0;
+  const multiCurrency = wallet.balances.length > 1;
+  const shares = funded
+    ? wallet.balances
+        .map((b) => ({ currency: b.currency, share: toEUR(b.currency, b.amountMinor) / totalMinor }))
+        .filter((s) => s.share > 0)
+        .sort((a, b) => b.share - a.share)
+    : [];
+  const card = cards.find((c) => c.id === wallet.fundingCardId);
   const addable = currencies.filter((c) => !c.unsupportedReason && !wallet.balances.some((b) => b.currency === c.code));
 
   async function saveRename() {
@@ -113,73 +128,81 @@ export function WalletDetail() {
 
   return (
     <main className="mb-screen mb-detail">
-      <Link to="/" aria-label="Back to wallets" style={{ color: 'var(--text-label)', display: 'inline-flex', padding: 'var(--space-3)', margin: 'calc(var(--space-3) * -1)', minWidth: 'var(--target-min, 44px)', minHeight: 'var(--target-min, 44px)', alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' /* flex column stretches children — size to content, stay left */ }}>
-        <svg width="8" height="14" viewBox="0 0 8 14" aria-hidden="true">
-          <path d="M7 1L1 7l6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </Link>
-
       <div className="mb-detail__grid">
         <section className="mb-detail__main">
-          <div>
-            {renaming ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                <label style={{ fontSize: 'var(--type-body-sm-size)', fontWeight: 600, color: 'var(--text-label)' }}>
-                  {walletDetail.renameLabel}
-                  <input
-                    className="mb-field__input"
-                    style={{ width: '100%', marginTop: 'var(--space-1)' }}
-                    value={nameDraft}
-                    autoFocus
-                    onChange={(e) => { setNameDraft(e.target.value); setRenameError(null); }}
-                  />
-                </label>
-                {renameError && <span role="alert" style={{ fontSize: 'var(--type-body-sm-size)', color: 'var(--feedback-error)' }}>{renameError}</span>}
-                <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center' }}>
-                  <Button variant="primary" loading={renameBusy} onClick={saveRename}>{walletDetail.renameSave}</Button>
-                  <Button variant="secondary" disabled={renameBusy} onClick={() => setRenaming(false)}>{walletDetail.renameCancel}</Button>
-                </div>
+          {/* Compact header: back + name + rename on ONE line (2b: buys back ~120px) */}
+          {renaming ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', width: '100%' }}>
+              <label style={{ fontSize: 'var(--type-body-sm-size)', fontWeight: 600, color: 'var(--text-label)', textAlign: 'left' }}>
+                {walletDetail.renameLabel}
+                <input
+                  className="mb-field__input"
+                  style={{ width: '100%', marginTop: 'var(--space-1)' }}
+                  value={nameDraft}
+                  autoFocus
+                  onChange={(e) => { setNameDraft(e.target.value); setRenameError(null); }}
+                />
+              </label>
+              {renameError && <span role="alert" style={{ fontSize: 'var(--type-body-sm-size)', color: 'var(--feedback-error)' }}>{renameError}</span>}
+              <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center' }}>
+                <Button variant="primary" loading={renameBusy} onClick={saveRename}>{walletDetail.renameSave}</Button>
+                <Button variant="secondary" disabled={renameBusy} onClick={() => setRenaming(false)}>{walletDetail.renameCancel}</Button>
               </div>
-            ) : (
-              <h1 className="mb-screen__title mb-screen__title--lg" style={{ marginBottom: 'var(--space-1)', display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                {wallet.name}
-                {/* Rename — the pencil affordance the product already uses */}
-                <button
-                  type="button"
-                  aria-label="Rename wallet"
-                  onClick={() => { setNameDraft(wallet.name); setRenaming(true); }}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--icon-primary)', padding: 'var(--space-3)', margin: 'calc(var(--space-2) * -1)', display: 'inline-flex' }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M13.5 3.5l3 3L7 16H4v-3l9.5-9.5z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </h1>
-            )}
-            <span className="mb-screen__subtitle" style={{ display: 'block' }}>{home.company}</span>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', justifyContent: 'inherit' }}>
-            <Chip badge={walletDetail.baseBadge}>
-              <Flag code={wallet.baseCurrency} /> {wallet.baseCurrency}
-            </Chip>
-            {wallet.balances.filter((b) => b.currency !== wallet.baseCurrency).map((b) => (
-              <Chip key={b.currency}>
-                <Flag code={b.currency} /> {b.currency}
-              </Chip>
-            ))}
-            <Chip variant="dashed" onClick={() => setAddOpen(true)} aria-haspopup="dialog">
-              {walletDetail.addCurrency}
-            </Chip>
-          </div>
-
-          <div>
-            <div className="mb-balance">
-              {parts.main}
-              <span className="mb-balance__decimals">{parts.decimals}</span>
             </div>
-            <div className="mb-balance__caption">{home.availableIn(wallet.baseCurrency)}</div>
+          ) : (
+            <div className="mb-detail__headrow">
+              <Link to="/" aria-label="Back to wallets" className="mb-detail__back">
+                <svg width="8" height="14" viewBox="0 0 8 14" aria-hidden="true">
+                  <path d="M7 1L1 7l6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+              <span style={{ minWidth: 0 }}>
+                <h1 className="mb-screen__title mb-screen__title--lg" style={{ margin: 0, display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  {wallet.name}
+                  <button
+                    type="button"
+                    aria-label="Rename wallet"
+                    onClick={() => { setNameDraft(wallet.name); setRenaming(true); }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--icon-primary)', padding: 'var(--space-2)', display: 'inline-flex' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M13.5 3.5l3 3L7 16H4v-3l9.5-9.5z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </h1>
+                <span className="mb-screen__subtitle" style={{ display: 'block' }}>{home.company}</span>
+              </span>
+            </div>
+          )}
+
+          {/* Total-value hero (2b): the number a finance operator actually wants */}
+          <div>
+            <div className="mb-balance__caption">{walletDetail.totalValueCaption('EUR')}</div>
+            <div className="mb-balance">
+              {multiCurrency && <span aria-hidden="true">≈ </span>}
+              {totalParts.main}
+              <span className="mb-balance__decimals">{totalParts.decimals}</span>
+            </div>
           </div>
+
+          {/* Distribution bar + legend (2b): instant exposure read */}
+          {funded && shares.length > 1 && (
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+              <div className="mb-distbar" aria-hidden="true">
+                {shares.map((s, i) => (
+                  <span key={s.currency} style={{ width: `${Math.max(2, Math.round(s.share * 100))}%`, background: CHART_TOKENS[i % CHART_TOKENS.length] }} />
+                ))}
+              </div>
+              <div className="mb-legend">
+                {shares.map((s, i) => (
+                  <span key={s.currency} className="mb-legend__item">
+                    <span className="mb-legend__dot" style={{ background: CHART_TOKENS[i % CHART_TOKENS.length] }} aria-hidden="true" />
+                    {s.currency} {Math.round(s.share * 100)}%
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-8)' }}>
             <CircleAction emphasis="primary" icon={PlusIcon} label="Add funds" />
@@ -194,15 +217,58 @@ export function WalletDetail() {
         </section>
 
         <aside className="mb-detail__side">
+          {/* ONE merged currency list (2b): BASE badge inline, Add currency as a row */}
+          <div className="mb-detail__balances-head">
+            <span style={{ fontSize: 'var(--type-body-sm-size)', fontWeight: 600, color: 'var(--text-label)' }}>{walletDetail.balancesHeader}</span>
+            {rates && <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-secondary)' }}>{walletDetail.ratesAsOf(rates.asOf)}</span>}
+          </div>
+          <div className="mb-card mb-card--sm">
+            {wallet.balances.map((b) => {
+              const currency = currencies.find((c) => c.code === b.currency);
+              const isBase = b.currency === wallet.baseCurrency;
+              return (
+                <div className="mb-row" key={b.currency}>
+                  <Flag code={b.currency} />
+                  <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                    <span className="mb-row__title" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                      {b.currency}
+                      {isBase && <span className="mb-badge">{walletDetail.baseBadge}</span>}
+                    </span>
+                    <span className="mb-row__sub">{currency?.name ?? b.currency}</span>
+                  </span>
+                  <span style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <span className={`mb-row__value${b.amountMinor === 0 ? ' mb-row__value--muted' : ''}`} style={{ marginLeft: 0 }}>
+                      {formatMoney(b.amountMinor, b.currency)}
+                    </span>
+                    {!isBase && b.amountMinor > 0 && (
+                      <span style={{ fontSize: 'var(--type-caption-size)', color: 'var(--text-muted)' }}>
+                        ≈ {formatMoney(toEUR(b.currency, b.amountMinor), 'EUR')}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              );
+            })}
+            {/* Add currency as the list's final row (2b) */}
+            <button type="button" className="mb-row mb-detail__addrow" onClick={() => setAddOpen(true)} aria-haspopup="dialog">
+              <span className="mb-detail__addicon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 18 18">
+                  <path d="M9 2v14M2 9h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                </svg>
+              </span>
+              <span style={{ color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)' }}>{walletDetail.addCurrencyRow}</span>
+            </button>
+          </div>
+
+          {/* Funding card demoted below balances, tied to consent copy (2b) */}
           {card && (
             <div className="mb-card mb-card--sm" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
               <CardBadge network={card.network} />
-              {/* min-width:0 lets this column shrink so Manage always stays inside the card */}
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span className="mb-row__title" style={{ display: 'block' }}>
                   {card.network === 'visa' ? 'Visa' : 'Mastercard'} •• {card.last4}
                 </span>
-                <span className="mb-row__sub">{walletDetail.fundingCardLabel}</span>
+                <span className="mb-row__sub">{walletDetail.fundingCardCharges(wallet.baseCurrency)}</span>
               </span>
               <button
                 type="button"
@@ -231,18 +297,6 @@ export function WalletDetail() {
               </p>
             </div>
           )}
-
-          <div className="mb-card mb-card--sm">
-            {wallet.balances.map((b) => (
-              <div className="mb-row" key={b.currency}>
-                <Flag code={b.currency} />
-                <span className="mb-row__title">{b.currency}</span>
-                <span className={`mb-row__value${b.amountMinor === 0 ? ' mb-row__value--muted' : ''}`}>
-                  {formatMoney(b.amountMinor, b.currency)}
-                </span>
-              </div>
-            ))}
-          </div>
         </aside>
       </div>
 

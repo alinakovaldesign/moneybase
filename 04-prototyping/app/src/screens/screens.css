@@ -489,6 +489,92 @@
   margin: 0;
 }
 
+/* WALLET-009 rework (DESIGN-003 2b) — compact header, distribution bar, merged list */
+.mb-detail__headrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: left;
+}
+.mb-detail__back {
+  color: var(--text-label);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target-min, 44px);
+  min-height: var(--target-min, 44px);
+  flex-shrink: 0;
+}
+.mb-distbar {
+  display: flex;
+  gap: calc(var(--space-1) / 2);
+  height: var(--size-progress-h);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--chart-track);
+}
+.mb-distbar > span {
+  border-radius: var(--radius-pill);
+}
+.mb-legend {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: var(--type-caption-size);
+  color: var(--text-secondary);
+}
+.mb-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.mb-legend__dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+}
+.mb-badge {
+  font-size: var(--type-badge-size);
+  font-weight: 700;
+  color: var(--text-heading);
+  background: var(--surface-tint);
+  padding: calc(var(--space-1) / 2) var(--space-2);
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
+}
+.mb-detail__balances-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+.mb-detail__addrow {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: left;
+  min-height: var(--target-min, 44px);
+}
+.mb-detail__addrow:focus-visible {
+  outline: var(--focus-ring, 2px solid var(--border-focus));
+  outline-offset: calc(var(--space-1) * -1);
+}
+.mb-detail__addicon {
+  width: var(--space-5);
+  height: var(--space-5);
+  border-radius: var(--radius-pill);
+  border: 1.5px dashed var(--border-dashed-accent);
+  color: var(--icon-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 /* Wallet detail: two product-style panels on web, single column on mobile */
 .mb-detail__grid {
   display: flex;

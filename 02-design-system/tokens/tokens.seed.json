@@ -31,6 +31,7 @@
       "disabled-bg": "{gray.disabled}", "disabled-text": "{slate.400}"
     },
     "feedback": { "error": "{red.600}", "success": "{green.600}", "success-bg": "{green.100}", "warning": "#B7791F" },
+    "chart": { "primary": "{blue.500}", "secondary": "{blue.200}", "tertiary": "{navy.800}", "track": "{gray.disabled}" },
     "border": { "default": "{gray.border}", "input": "{gray.input-border}", "divider": "{gray.divider}", "focus": "{blue.700}", "dashed-accent": "{blue.200}", "error": "{red.600}" },
     "shadow": {
       "card": "0 1px 3px rgba(22,50,92,0.06)",

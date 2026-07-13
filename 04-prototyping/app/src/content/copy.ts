@@ -99,6 +99,12 @@ export const walletDetail = {
   renameCancel: 'Cancel',
   addCurrencyTitle: 'Add a currency', // M7 (deck addendum)
   addCurrencyDone: 'Done',
+  // DESIGN-003 / WALLET-009 rework (M9 deck addendum)
+  totalValueCaption: (base: string) => `Total value · ${base}`,
+  balancesHeader: 'Balances',
+  ratesAsOf: (time: string) => `Rates as of ${time}`,
+  fundingCardCharges: (base: string) => `Funding card · charges in ${base}`,
+  addCurrencyRow: 'Add currency',
 } as const;
 
 export const emptyState = {

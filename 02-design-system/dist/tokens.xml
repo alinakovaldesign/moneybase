@@ -38,6 +38,10 @@
   <color name="feedback_success">#1E8E5A</color>
   <color name="feedback_success_bg">#E2F2EA</color>
   <color name="feedback_warning">#B7791F</color>
+  <color name="chart_primary">#16A0F6</color>
+  <color name="chart_secondary">#AFD6F9</color>
+  <color name="chart_tertiary">#16325C</color>
+  <color name="chart_track">#E4EAF1</color>
   <color name="border_default">#E1E8F0</color>
   <color name="border_input">#D8E2EC</color>
   <color name="border_divider">#EAF0F6</color>

@@ -1,0 +1,60 @@
+import{i as e,s as t}from"./preload-helper-BdFrVu1K.js";import{P as n,t as r}from"./iframe-Q_ScZxU5.js";function i({code:e}){let t={width:o,height:o,borderRadius:`var(--radius-pill)`,flexShrink:0,border:`1px solid var(--border-default)`,boxSizing:`border-box`};switch(e){case`EUR`:return(0,a.jsxs)(`svg`,{viewBox:`0 0 20 20`,style:t,"aria-hidden":`true`,children:[(0,a.jsx)(`circle`,{cx:`10`,cy:`10`,r:`10`,fill:`#1B4FA0`}),(0,a.jsx)(`g`,{fill:`#FFBD00`,children:Array.from({length:8},(e,t)=>{let n=t/8*Math.PI*2;return(0,a.jsx)(`circle`,{cx:10+5.8*Math.sin(n),cy:10-5.8*Math.cos(n),r:`1`},t)})})]});case`USD`:return(0,a.jsxs)(`svg`,{viewBox:`0 0 20 20`,style:t,"aria-hidden":`true`,children:[(0,a.jsx)(`defs`,{children:(0,a.jsx)(`clipPath`,{id:`mb-flag-usd`,children:(0,a.jsx)(`circle`,{cx:`10`,cy:`10`,r:`10`})})}),(0,a.jsxs)(`g`,{clipPath:`url(#mb-flag-usd)`,children:[(0,a.jsx)(`rect`,{width:`20`,height:`20`,fill:`#FFFFFF`}),[0,4,8,12,16].map(e=>(0,a.jsx)(`rect`,{y:e,width:`20`,height:`2`,fill:`#C0392B`},e)),(0,a.jsx)(`rect`,{width:`10`,height:`8`,fill:`#16325C`})]})]});case`GBP`:return(0,a.jsxs)(`svg`,{viewBox:`0 0 20 20`,style:t,"aria-hidden":`true`,children:[(0,a.jsx)(`defs`,{children:(0,a.jsx)(`clipPath`,{id:`mb-flag-gbp`,children:(0,a.jsx)(`circle`,{cx:`10`,cy:`10`,r:`10`})})}),(0,a.jsxs)(`g`,{clipPath:`url(#mb-flag-gbp)`,children:[(0,a.jsx)(`rect`,{width:`20`,height:`20`,fill:`#16325C`}),(0,a.jsx)(`path`,{d:`M0 0l20 20M20 0L0 20`,stroke:`#FFFFFF`,strokeWidth:`4`}),(0,a.jsx)(`path`,{d:`M10 0v20M0 10h20`,stroke:`#FFFFFF`,strokeWidth:`6`}),(0,a.jsx)(`path`,{d:`M10 0v20M0 10h20`,stroke:`#C0392B`,strokeWidth:`3`})]})]});case`CHF`:return(0,a.jsxs)(`svg`,{viewBox:`0 0 20 20`,style:t,"aria-hidden":`true`,children:[(0,a.jsx)(`circle`,{cx:`10`,cy:`10`,r:`10`,fill:`#C0392B`}),(0,a.jsx)(`path`,{d:`M10 5v10M5 10h10`,stroke:`#FFFFFF`,strokeWidth:`3`})]});default:return(0,a.jsx)(`span`,{style:{...t,display:`inline-flex`,alignItems:`center`,justifyContent:`center`,background:`var(--surface-tint)`,color:`var(--text-heading)`,fontSize:`calc(var(--type-caption-size) * 0.75)`,fontWeight:700,fontFamily:`var(--font-body)`},"aria-hidden":`true`,children:e.slice(0,2)})}}var a,o,s=e((()=>{a=r(),o=`var(--space-5)`,i.__docgenInfo={description:``,methods:[],displayName:`Flag`,props:{code:{required:!0,tsType:{name:`string`},description:``}}}})),c=e((()=>{}));function l({variant:e=`default`,badge:t,children:n,...r}){return(0,u.jsxs)(`button`,{type:`button`,className:`mb-chip`,"data-variant":e,...r,children:[n,t&&(0,u.jsx)(`span`,{className:`mb-chip__badge`,children:t})]})}var u,d=e((()=>{c(),u=r(),l.__docgenInfo={description:`Currency chip (flag + code + optional BASE badge) or dashed add-affordance.`,methods:[],displayName:`Chip`,props:{variant:{required:!1,tsType:{name:`union`,raw:`'default' | 'dashed'`,elements:[{name:`literal`,value:`'default'`},{name:`literal`,value:`'dashed'`}]},description:`dashed = the "+ Add currency" affordance from the canvas`,defaultValue:{value:`'default'`,computed:!1}},badge:{required:!1,tsType:{name:`string`},description:``},children:{required:!0,tsType:{name:`ReactNode`},description:``}},composes:[`ButtonHTMLAttributes`]}})),f=e((()=>{}));function p({checked:e,onChange:t,label:n}){let r=(0,m.useId)();return(0,h.jsxs)(`label`,{className:`mb-consent`,htmlFor:r,children:[(0,h.jsx)(`input`,{id:r,type:`checkbox`,className:`mb-consent__input`,checked:e,onChange:e=>t(e.target.checked)}),(0,h.jsx)(`span`,{className:`mb-consent__box`,"aria-hidden":`true`,children:(0,h.jsx)(`svg`,{viewBox:`0 0 13 11`,fill:`none`,className:`mb-consent__tick`,children:(0,h.jsx)(`path`,{d:`M1.5 5.5l3.5 3.5L11.5 1.5`,stroke:`currentColor`,strokeWidth:`2.2`,strokeLinecap:`round`,strokeLinejoin:`round`})})}),(0,h.jsx)(`span`,{className:`mb-consent__label`,children:n})]})}var m,h,g=e((()=>{m=t(n(),1),f(),h=r(),p.__docgenInfo={description:`Consent checkbox as a large tappable card (canvas 1d). Always starts unticked —
+pre-ticked consent is a dark pattern and never acceptable (charter money-UX rule).`,methods:[],displayName:`ConsentCheckbox`,props:{checked:{required:!0,tsType:{name:`boolean`},description:``},onChange:{required:!0,tsType:{name:`signature`,type:`function`,raw:`(checked: boolean) => void`,signature:{arguments:[{type:{name:`boolean`},name:`checked`}],return:{name:`void`}}},description:``},label:{required:!0,tsType:{name:`string`},description:``}}}})),_=e((()=>{}));function v({icon:e,label:t,emphasis:n=`tint`,disabled:r,...i}){return(0,y.jsxs)(`button`,{type:`button`,className:`mb-circle-action`,"data-emphasis":n,disabled:r,...i,children:[(0,y.jsx)(`span`,{className:`mb-circle-action__circle`,"aria-hidden":`true`,children:e}),(0,y.jsx)(`span`,{className:`mb-circle-action__label`,children:t})]})}var y,b=e((()=>{_(),y=r(),v.__docgenInfo={description:`THE Moneybase action pattern (DESIGN-000): circular icon-button with a label
+underneath. Disabled state stays visible — capability is communicated, not hidden.`,methods:[],displayName:`CircleAction`,props:{icon:{required:!0,tsType:{name:`ReactNode`},description:``},label:{required:!0,tsType:{name:`string`},description:``},emphasis:{required:!1,tsType:{name:`union`,raw:`'primary' | 'tint'`,elements:[{name:`literal`,value:`'primary'`},{name:`literal`,value:`'tint'`}]},description:`primary = filled blue (the one alive action on unfunded wallets)`,defaultValue:{value:`'tint'`,computed:!1}}},composes:[`ButtonHTMLAttributes`]}})),x=e((()=>{}));function S({height:e,width:t,radius:n}){return(0,C.jsx)(`span`,{className:`mb-skeleton`,style:{height:e??`var(--space-4)`,width:t??`100%`,borderRadius:n??`var(--radius-input)`},"aria-hidden":`true`})}var C,w=e((()=>{x(),C=r(),S.__docgenInfo={description:`Loading placeholder — lists skeleton, they never spin (WALLET-008 rule).`,methods:[],displayName:`Skeleton`,props:{height:{required:!1,tsType:{name:`string`},description:``},width:{required:!1,tsType:{name:`string`},description:``},radius:{required:!1,tsType:{name:`string`},description:``}}}})),T=e((()=>{}));function E({label:e,error:t,helper:n,...r}){let i=(0,D.useId)(),a=t?`${i}-error`:n?`${i}-helper`:void 0;return(0,O.jsxs)(`div`,{className:`mb-field`,children:[(0,O.jsx)(`label`,{className:`mb-field__label`,htmlFor:i,children:e}),(0,O.jsx)(`input`,{id:i,className:`mb-field__input`,"aria-invalid":!!t,"aria-describedby":a,...r}),(0,O.jsx)(`div`,{id:`${i}-error`,className:`mb-field__error`,role:`alert`,"aria-live":`assertive`,children:t}),!t&&n&&(0,O.jsx)(`div`,{id:`${i}-helper`,className:`mb-field__helper`,children:n})]})}var D,O,k=e((()=>{D=t(n(),1),T(),O=r(),E.__docgenInfo={description:``,methods:[],displayName:`TextField`,props:{label:{required:!0,tsType:{name:`string`},description:``},error:{required:!1,tsType:{name:`ReactNode`},description:`Error content — rendered inline next to the field, announced via aria-live.`},helper:{required:!1,tsType:{name:`string`},description:``}},composes:[`Omit`]}})),A,j,M,N,P,F,I,L,R,z,B;e((()=>{s(),d(),g(),b(),w(),k(),A=t(n(),1),j=r(),M={title:`Design System/Flow Components`,parameters:{layout:`padded`}},N=(0,j.jsx)(`svg`,{width:`20`,height:`20`,viewBox:`0 0 18 18`,children:(0,j.jsx)(`path`,{d:`M9 2v14M2 9h14`,stroke:`currentColor`,strokeWidth:`2.4`,strokeLinecap:`round`})}),P={render:()=>(0,j.jsxs)(`div`,{style:{display:`flex`,gap:`var(--space-2)`,flexWrap:`wrap`},children:[(0,j.jsxs)(l,{badge:`BASE`,children:[(0,j.jsx)(i,{code:`EUR`}),` EUR`]}),(0,j.jsxs)(l,{children:[(0,j.jsx)(i,{code:`USD`}),` USD`]}),(0,j.jsxs)(l,{children:[(0,j.jsx)(i,{code:`GBP`}),` GBP`]}),(0,j.jsx)(l,{variant:`dashed`,children:`+ Add currency`})]})},F={render:()=>(0,j.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:`var(--space-4)`,maxWidth:`var(--layout-content-max)`},children:[(0,j.jsx)(E,{label:`Wallet name`,defaultValue:`Operating — EUR`,helper:`Balances and reports default to this currency.`}),(0,j.jsx)(E,{label:`Wallet name`,defaultValue:`Operating Wallet`,error:(0,j.jsxs)(j.Fragment,{children:[`You already have a wallet called ‘Operating Wallet’. Try `,(0,j.jsx)(`button`,{className:`mb-field__suggestion`,children:`‘Operating — EUR’`}),`?`]})})]})},I={render:function(){let[e,t]=(0,A.useState)(!1);return(0,j.jsx)(`div`,{style:{maxWidth:`var(--layout-content-max)`},children:(0,j.jsx)(p,{checked:e,onChange:t,label:`I agree Moneybase may charge this card to fund Operating Wallet`})})}},L={render:()=>(0,j.jsxs)(`div`,{style:{display:`flex`,gap:`var(--space-6)`},children:[(0,j.jsx)(v,{emphasis:`primary`,icon:N,label:`Add funds`}),(0,j.jsx)(v,{icon:N,label:`Exchange`}),(0,j.jsx)(v,{icon:N,label:`Details`,disabled:!0})]})},R={render:()=>(0,j.jsx)(`div`,{style:{display:`flex`,gap:`var(--space-3)`},children:[`EUR`,`USD`,`GBP`,`CHF`,`PLN`,`AED`].map(e=>(0,j.jsx)(i,{code:e},e))})},z={render:()=>(0,j.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:`var(--space-3)`,maxWidth:`var(--layout-content-max)`},children:[(0,j.jsx)(S,{height:`var(--space-8)`}),(0,j.jsx)(S,{}),(0,j.jsx)(S,{width:`60%`})]})},P.parameters={...P.parameters,docs:{...P.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    gap: 'var(--space-2)',
+    flexWrap: 'wrap'
+  }}>
+      <Chip badge="BASE"><Flag code="EUR" /> EUR</Chip>
+      <Chip><Flag code="USD" /> USD</Chip>
+      <Chip><Flag code="GBP" /> GBP</Chip>
+      <Chip variant="dashed">+ Add currency</Chip>
+    </div>
+}`,...P.parameters?.docs?.source}}},F.parameters={...F.parameters,docs:{...F.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-4)',
+    maxWidth: 'var(--layout-content-max)'
+  }}>
+      <TextField label="Wallet name" defaultValue="Operating — EUR" helper="Balances and reports default to this currency." />
+      <TextField label="Wallet name" defaultValue="Operating Wallet" error={<>You already have a wallet called ‘Operating Wallet’. Try <button className="mb-field__suggestion">‘Operating — EUR’</button>?</>} />
+    </div>
+}`,...F.parameters?.docs?.source}}},I.parameters={...I.parameters,docs:{...I.parameters?.docs,source:{originalSource:`{
+  render: function ConsentStory() {
+    const [checked, setChecked] = useState(false);
+    return <div style={{
+      maxWidth: 'var(--layout-content-max)'
+    }}>
+        <ConsentCheckbox checked={checked} onChange={setChecked} label="I agree Moneybase may charge this card to fund Operating Wallet" />
+      </div>;
+  }
+}`,...I.parameters?.docs?.source}}},L.parameters={...L.parameters,docs:{...L.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    gap: 'var(--space-6)'
+  }}>
+      <CircleAction emphasis="primary" icon={PlusIcon} label="Add funds" />
+      <CircleAction icon={PlusIcon} label="Exchange" />
+      <CircleAction icon={PlusIcon} label="Details" disabled />
+    </div>
+}`,...L.parameters?.docs?.source}}},R.parameters={...R.parameters,docs:{...R.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    gap: 'var(--space-3)'
+  }}>
+      {['EUR', 'USD', 'GBP', 'CHF', 'PLN', 'AED'].map(c => <Flag key={c} code={c} />)}
+    </div>
+}`,...R.parameters?.docs?.source}}},z.parameters={...z.parameters,docs:{...z.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-3)',
+    maxWidth: 'var(--layout-content-max)'
+  }}>
+      <Skeleton height="var(--space-8)" />
+      <Skeleton />
+      <Skeleton width="60%" />
+    </div>
+}`,...z.parameters?.docs?.source}}},B=[`CurrencyChips`,`TextFieldStates`,`Consent`,`CircleActions`,`Flags`,`Skeletons`]}))();export{L as CircleActions,I as Consent,P as CurrencyChips,R as Flags,z as Skeletons,F as TextFieldStates,B as __namedExportsOrder,M as default};

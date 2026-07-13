@@ -19,6 +19,12 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
   const [checking, setChecking] = useState(false);
   const [dupError, setDupError] = useState<{ name: string; suggestion: string } | null>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // The panel always opens at the top (selected currency sorts first).
+  useEffect(() => {
+    if (pickerOpen) panelRef.current?.scrollTo(0, 0);
+  }, [pickerOpen]);
 
   useEffect(() => {
     let alive = true;
@@ -129,8 +135,14 @@ export function Step1Name({ value, onChange }: { value: Step1Value; onChange: (v
             (currencies === null ? (
               <Skeleton height="var(--size-control-h)" />
             ) : (
-              <div role="listbox" aria-label={wizard.baseCurrencyLabel} className="mb-select__panel">
-                {[...selectable].sort((a, b) => Number(b.common) - Number(a.common)).map((c) => (
+              <div role="listbox" aria-label={wizard.baseCurrencyLabel} className="mb-select__panel" ref={panelRef}>
+                {[...selectable]
+                  .sort(
+                    (a, b) =>
+                      Number(b.code === value.baseCurrency) - Number(a.code === value.baseCurrency) ||
+                      Number(b.common) - Number(a.common),
+                  )
+                  .map((c) => (
                   <button
                     key={c.code}
                     type="button"

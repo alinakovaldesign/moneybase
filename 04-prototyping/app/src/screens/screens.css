@@ -405,6 +405,12 @@
   overflow-y: auto;
   overscroll-behavior: contain; /* wheel inside the panel never scrolls the modal behind */
   padding: var(--space-1);
+  /* rows always rest on whole-row boundaries — never half-clipped at the top */
+  scroll-snap-type: y mandatory;
+  scroll-padding-block: var(--space-1);
+}
+.mb-select__panel .mb-select__option {
+  scroll-snap-align: start;
 }
 .mb-select__option {
   display: flex;

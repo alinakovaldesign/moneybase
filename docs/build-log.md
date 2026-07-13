@@ -46,6 +46,13 @@ Format per directive:
 - **Accepted / rejected**: 4 normalization merges accepted and documented (near-duplicate grays, disabled fills, control heights, icon-chip sizes); DDR-002 sign-off PENDING human review
 - **Open**: DESIGN-001 exploration evidence (killed direction / canvas prompts) still to be added by the human
 
+## DESIGN-003 / WALLET-009 — Round trip + the design-carrying PR (Phase 7)
+- **Session**: 2026-07-13; canvas by human, implementation by Claude Code
+- **Round trip**: human screenshotted the SHIPPED wallet detail into Claude Design ("recreate + propose improvements — more ux advanced and scannable"); canvas returned 2a (faithful recreation) + 2b (rework) with written rationale; human accepted the full delta spec (evidence/design-sessions/DESIGN-003/prompts.md, verbatim)
+- **Agent produced**: branch design/wallet-009-detail-rework — merged currency list, total-value hero at mock FX rates with honesty stamp, distribution bar (new semantic chart.* tokens, regenerated into CSS/Swift/XML), compact header, funding card demoted with consent-tying subtitle; PR #1 opened with the design-PR anatomy (motivation, token diff, blast radius, checks, review recipe): https://github.com/alinakovaldesign/moneybase/pull/1
+- **Verified by hand before accepting**: iOS + web live; totals math checked (24,850.00 + ≈2,870.86 + ≈1,027.26 ≈ 28,748.12; 2-cent delta vs canvas from per-currency rounding — noted)
+- **Awaiting**: human review + merge of PR #1 (the reviewer role is hers)
+
 ## WALLET-008 — QA pass: subagent reviews, fixes, error-state verification (Phase 6b)
 - **Session**: 2026-07-12, Claude Code; two reviewer subagents run in parallel (design-critic vs HIG/M3/web + charter; a11y-auditor vs WCAG 2.1 AA)
 - **Subagent findings**: design-critic 2 blockers / 13 should-fix / 12 polish; a11y-auditor 4 blockers / 8 should-fix / 3 polish. Full reports preserved in the session transcript.

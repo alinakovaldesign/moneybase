@@ -19,4 +19,4 @@
 
 **Validate next.** Comprehension test of the consent explainer (5 B2B users: can they say what gets charged, in which currency?); decline-rate and where decliners go; time-to-first-funded-wallet as the activation metric.
 
-**How it was built.** Agent-driven under 18 versioned directives; 40+ commits each naming their directive (enforced by a git hook); two Claude Design sessions with verbatim prompt logs; two AI reviewer audits (6 blockers found and fixed); ~6 human design-review rounds on the live product, all logged. Repo: github.com/alinakovaldesign/moneybase · Design PR: pull/1 · Case documentation: Notion.
+**How it was built.** Agent-driven under 18 versioned directives; 40+ commits each naming their directive (enforced by a git hook); two Claude Design sessions with verbatim prompt logs; two AI reviewer audits (6 blockers found and fixed); ~6 human design-review rounds on the live product, all logged. Repo: https://github.com/alinakovaldesign/moneybase · Design PR: https://github.com/alinakovaldesign/moneybase/pull/1 · Live prototype: https://alinakovaldesign.github.io/moneybase/ · Storybook: https://alinakovaldesign.github.io/moneybase/storybook/

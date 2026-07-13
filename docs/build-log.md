@@ -51,7 +51,7 @@ Format per directive:
 - **Round trip**: human screenshotted the SHIPPED wallet detail into Claude Design ("recreate + propose improvements — more ux advanced and scannable"); canvas returned 2a (faithful recreation) + 2b (rework) with written rationale; human accepted the full delta spec (evidence/design-sessions/DESIGN-003/prompts.md, verbatim)
 - **Agent produced**: branch design/wallet-009-detail-rework — merged currency list, total-value hero at mock FX rates with honesty stamp, distribution bar (new semantic chart.* tokens, regenerated into CSS/Swift/XML), compact header, funding card demoted with consent-tying subtitle; PR #1 opened with the design-PR anatomy (motivation, token diff, blast radius, checks, review recipe): https://github.com/alinakovaldesign/moneybase/pull/1
 - **Verified by hand before accepting**: iOS + web live; totals math checked (24,850.00 + ≈2,870.86 + ≈1,027.26 ≈ 28,748.12; 2-cent delta vs canvas from per-currency rounding — noted)
-- **Awaiting**: human review + merge of PR #1 (the reviewer role is hers)
+- **Merged**: PR #1 reviewed and merged by the human (eab3fe3) — directive → canvas → branch → PR → merged design change, loop closed
 
 ## WALLET-008 — QA pass: subagent reviews, fixes, error-state verification (Phase 6b)
 - **Session**: 2026-07-12, Claude Code; two reviewer subagents run in parallel (design-critic vs HIG/M3/web + charter; a11y-auditor vs WCAG 2.1 AA)

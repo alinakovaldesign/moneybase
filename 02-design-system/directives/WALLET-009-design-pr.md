@@ -13,3 +13,8 @@
 
 ## Out of scope
 - Merging without human review. Component-level workarounds.
+
+## Learnings
+- The round trip validated the whole pipeline: shipped screenshot → canvas critique (2a/2b with rationale) → delta spec → branch → PR with token diff/blast radius → human merge. Canvas proposals arrive with concrete values because the canvas medium is HTML — extraction stayed deterministic.
+- New chart.* tokens flowed to CSS/Swift/XML in one generator run — additive design changes are one-commit affairs in a token-first system.
+- Financial rounding note: summing per-currency conversions rounded to the cent differs from rounding the sum (±2c vs canvas) — real products must pick a rule; ours: round per currency, then sum.

@@ -197,7 +197,8 @@ export function WalletDetail() {
           {card && (
             <div className="mb-card mb-card--sm" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
               <CardBadge network={card.network} />
-              <span style={{ flex: 1 }}>
+              {/* min-width:0 lets this column shrink so Manage always stays inside the card */}
+              <span style={{ flex: 1, minWidth: 0 }}>
                 <span className="mb-row__title" style={{ display: 'block' }}>
                   {card.network === 'visa' ? 'Visa' : 'Mastercard'} •• {card.last4}
                 </span>
@@ -206,7 +207,7 @@ export function WalletDetail() {
               <button
                 type="button"
                 onClick={() => { setManageOpen((o) => !o); setCardLabelDraft(card.label); }}
-                style={{ background: 'none', border: 'none', color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)', cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+                style={{ background: 'none', border: 'none', color: 'var(--text-link)', fontWeight: 600, fontSize: 'var(--type-body-size)', cursor: 'pointer', fontFamily: 'var(--font-body)', flexShrink: 0, padding: 0 }}
               >
                 {walletDetail.manageCta}
               </button>

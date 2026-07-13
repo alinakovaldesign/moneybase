@@ -519,9 +519,10 @@
   border: 1px solid var(--border-divider);
   padding: var(--space-3) var(--space-4);
 }
-/* Card title never wraps mid-number; Manage keeps its own space */
-.mb-detail__side .mb-row__title {
-  white-space: nowrap;
+/* Overflow safety: cards can shrink within the grid column (human review:
+   Manage was pushed outside the card by non-shrinkable content). */
+.mb-detail__side .mb-card {
+  min-width: 0;
 }
 
 /* Loading line for async moments >400ms */

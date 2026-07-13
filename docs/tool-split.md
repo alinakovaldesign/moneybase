@@ -1,30 +1,36 @@
-# Claude Code vs Claude Design — split for this feature (one-pager skeleton)
+# Claude Code vs Claude Design — the split, from actual use
 
-Fill final version after DESIGN-003 + WALLET-009, from actual experience — the panel can tell theory from practice.
+Final version, written after the pipeline ran end to end (41 commits, 18 directives, one merged design PR). Everything below happened in this repo — nothing is theoretical.
 
-## What each is best at (for this feature)
+## What each was best at (observed)
+
 | | Claude Code | Claude Design |
 |---|---|---|
-| Strength | Committed, versioned, hook-enforced artifacts; token pipeline; state logic; edge cases; multi-file refactors; subagent review | Fast visual exploration via chat; layout/composition/tone iteration before structure is locked; judging directions side-by-side; stakeholder-friendly canvas |
-| For this task | The system of record: tokens, all flow logic, edge states, PRs, evidence | The system of exploration: visual direction for wallet card, wizard tone, explainer/consent art direction, success moment (DESIGN-001); post-build refinement against real screenshots (DESIGN-003) |
-| Weakness | Slow and expensive to "just try" 5 visual directions | Output isn't versioned/reviewable as code; drift risk if treated as a second source of truth |
+| **Role** | System of record: tokens, all flow logic, edge states, QA, PRs, evidence machinery | System of exploration: visual direction, screen composition, and post-ship critique |
+| **What it actually did here** | Token generator (CSS/Swift/XML from one seed), mock service with failure injection, 4-step wizard with all 4 error states, 3 platform presentations, two reviewer subagents that found 6 blockers, the WALLET-009 PR | DESIGN-001: 6 on-brand screens with toggleable edge-state props; DESIGN-003: took a screenshot of the *shipped* screen and returned a rework (2b) with written rationale that survived review and merged |
+| **Observed weakness** | Its own screenshots contained visual bugs it didn't *see* — six rounds of human review caught an iPad-shaped frame, half-width content, overlapping dropdowns | Output isn't versioned or reviewable as code; its numbers needed checking (2b's total was self-corrected once, and still differed by 2 cents of rounding) |
 
-## Chosen pipeline (the round trip — both handoff directions demonstrated)
-1. **Explore** (DESIGN-001, Claude Design): 2–3 directions for the four key moments; prompts logged, exports committed.
-2. **Lock + extract** (DESIGN-002): one direction chosen (DDR), translated into token values. **This is the exact line where design intent becomes code.**
-3. **Build** (WALLET-001..008, Claude Code): all structure, states, edges, a11y iterated in code only. Canvas is frozen.
-4. **Round-trip refine** (DESIGN-003, Claude Design): one shipped screen goes back to canvas as a screenshot; iteration output is expressed only as token/component deltas.
-5. **Commit** (WALLET-009, Claude Code): deltas land as the design-carrying PR with per-platform visual evidence.
+## The pipeline that actually ran
 
-## Anti-drift rules
-- Single direction of truth per phase: before DESIGN-002 the canvas leads; after it, the repo leads — permanently.
-- Canvas → code handoff is always a *token extraction table* or *delta spec*, never "match this image."
-- Anything worth keeping from a later canvas session re-enters via a new DESIGN directive + PR; the canvas itself is never updated backward to match code.
-- Both tools produce evidence the same way: written prompts/directives in, versioned artifacts out.
+1. **Research** (Code): product cue sheet from real surfaces — because the canvas is only as on-brand as what you feed it.
+2. **Explore** (Design): 6 screens on canvas, edge states included, from a prompt pack encoding the cue sheet.
+3. **Extract** (Code): the canvas is HTML, so extraction was *deterministic* — every semantic token traces to a canvas value or is flagged `[system default]`. **This table is the exact line where design intent became code.**
+4. **Build** (Code): canvas frozen; all iteration in code under directives, with the human reviewing the live product (not mockups).
+5. **Round trip** (Design → Code): shipped screenshot back to canvas → delta spec → branch → PR #1 with token diff/blast radius → human merged. Loop closed.
 
-## Never fully delegated to an agent (and why)
-- Consent + explainer copy (regulatory meaning; agent proposes, human owns)
-- Error semantics for money actions (what "failed" promises the user)
-- The decision of which errors block vs warn
-- Direction choice in DESIGN-002 (taste + brand judgment is the human's job; the agent generates options)
-- Final acceptance of any screen a client could screenshot in a complaint
+## How drift was actually prevented
+
+- **One direction of truth per phase**: canvas led until extraction; the repo led after. When the human later improved a screen, it re-entered through DESIGN-003 — never by silently editing canvas or code.
+- **Handoffs are artifacts, not vibes**: an extraction table on the way in, a delta spec on the way out. Nobody ever "matched the picture."
+- **The commit hook enforces provenance**: every change names its directive; both canvas sessions have verbatim prompt logs in `evidence/design-sessions/`.
+
+## What was never fully delegated (and where that proved right)
+
+- **Consent and money copy** — agent drafted, human approved line by line; agent content-QA caught two contradictions in the canvas copy (F1/F2) but the *decisions* were human.
+- **Direction choice** — DDR-002 records the human's pick and the killed alternatives.
+- **Visual acceptance** — every screen was accepted from the live product by the human; six review rounds produced fixes the agent's own verification had missed.
+- **The merge button** — PR #1 was reviewed and merged by the human, not the agent.
+
+## One honest surprise
+
+Static agent review and human visual review caught *disjoint* bug sets: the human saw layout breakage in seconds; the subagents found a broken code path (new-card linking) and a silent submit failure no amount of looking at screens would reveal. The split isn't "agent builds, human approves" — it's two different review instruments, both necessary.

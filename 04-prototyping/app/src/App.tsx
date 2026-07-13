@@ -13,7 +13,8 @@ import { WalletDetail } from './screens/WalletDetail';
 function App() {
   return (
     <PlatformProvider>
-      <BrowserRouter>
+      {/* basename follows Vite's base so the same build works locally and on GitHub Pages */}
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <div
           style={{
             position: 'fixed',

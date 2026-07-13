@@ -12,4 +12,4 @@
 
 **Consequences**: Primary CTAs and links are a step deeper than the product's blue — visible in side-by-side comparison, imperceptible in isolation. **Product recommendation for Moneybase** (joins DDR-003's list): the production palette fails AA on its primary actions; a text-safe blue tier would fix it product-wide.
 
-**Approval**: agent-implemented per QA mandate; ☐ human sign-off with DDR-002/003 (one-line revert: point three tokens back to blue.500).
+**Approval**: agent-implemented per QA mandate. ✅ **Signed off by Alina Koval, 2026-07-13** ("DDRs signed off", session transcript) — the deeper text-safe blue stays.

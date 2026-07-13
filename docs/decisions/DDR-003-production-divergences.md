@@ -14,4 +14,4 @@
 
 **Consequences**: Three product recommendations fall out of the feature work for free (rename, locale formatting audit, empty-state pattern) — they go in the stakeholder summary as "what we'd feed back to the core product." Walkthrough framing: respectful ("locale mismatch," not "wrong"), since the panel is the product's team.
 
-**Approval**: proposed by human ("their naming and 0,00 € zeros aren't good — let's do better"), reasoning structured by agent. ☐ Human sign-off with DDR-002.
+**Approval**: proposed by human ("their naming and 0,00 € zeros aren't good — let's do better"), reasoning structured by agent. ✅ **Signed off by Alina Koval, 2026-07-13** ("DDRs signed off", session transcript).

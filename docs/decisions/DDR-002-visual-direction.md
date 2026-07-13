@@ -11,4 +11,4 @@
 
 **Consequences**: Tokens extract deterministically from the canvas (see `02-design-system/extraction-DESIGN-002.md`). Amber's scarcity is now a rule (one accent CTA per journey), enforced at the token level via `action.accent-*` usage guidance. The canvas is frozen; visual iteration re-enters via DESIGN-003 only.
 
-**Approval**: drafted by the agent from the human's canvas decisions; direction choice itself was made by the human on canvas. ☐ Human sign-off pending review of this DDR + extraction table.
+**Approval**: drafted by the agent from the human's canvas decisions; direction choice itself was made by the human on canvas. ✅ **Signed off by Alina Koval, 2026-07-13** ("DDRs signed off", session transcript).

@@ -378,6 +378,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+.mb-select__anchor {
   position: relative;
 }
 .mb-select__chevron {
@@ -391,7 +393,7 @@
 }
 .mb-select__panel {
   position: absolute;
-  top: calc(100% - var(--space-4));
+  top: calc(100% + var(--space-1)); /* flush below the trigger, never overlapping it */
   left: 0;
   right: 0;
   z-index: 6;
@@ -401,6 +403,7 @@
   box-shadow: var(--shadow-sheet);
   max-height: calc(var(--size-control-h) * 5);
   overflow-y: auto;
+  overscroll-behavior: contain; /* wheel inside the panel never scrolls the modal behind */
   padding: var(--space-1);
 }
 .mb-select__option {
